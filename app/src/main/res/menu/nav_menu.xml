@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_search"
+        android:icon="@drawable/search"
+        android:title="@string/title_search" />
+
+    <item
+        android:id="@+id/navigation_games"
+        android:icon="@drawable/boardgame"
+        android:title="@string/title_games" />
+
+    <item
+        android:id="@+id/navigation_community"
+        android:icon="@drawable/community"
+        android:title="@string/title_community" />
+
+    <item
+        android:id="@+id/navigation_matches"
+        android:icon="@drawable/dossier"
+        android:title="@string/title_matches" />
+
+    <item
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/account"
+        android:title="@string/title_profile" />
+</menu>

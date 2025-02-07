@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Funcionalidade Indisponível"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:paddingBottom="16dp" />
+
+    <TextView
+        android:id="@+id/tvtext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ficará disponível na 2ª versão."
+        android:textSize="15sp"
+        android:paddingBottom="16dp" />
+
+    <!-- Adicionando a imagem -->
+    <ImageView
+        android:id="@+id/ivFeatureImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/construction"
+        android:contentDescription="Imagem de funcionalidade indisponível"/>
+</LinearLayout>
