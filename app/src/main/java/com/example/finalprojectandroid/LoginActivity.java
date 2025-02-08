@@ -30,20 +30,6 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = findViewById(R.id.btnLogin);
         userDAO = new userDAO(this);
 
-//        btnLogin.setOnClickListener(v -> {
-//            String email = etEmailLogin.getText().toString();
-//            String password = etPasswordLogin.getText().toString();
-//
-//            if (userDAO.loginUser(email, password)) {
-//                Toast.makeText(this, "Login bem-sucedido!", Toast.LENGTH_SHORT).show();
-//                // Redirecionar para a tela principal da app
-//                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-//                finish();
-//            } else {
-//                Toast.makeText(this, "Email ou password incorretos!", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-
         btnLogin.setOnClickListener(v -> {
             String email = etEmailLogin.getText().toString();
             String password = etPasswordLogin.getText().toString();

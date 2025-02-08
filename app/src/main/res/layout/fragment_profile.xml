@@ -5,14 +5,6 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:columnCount="2"
-        android:rowCount="5"
-        android:alignmentMode="alignMargins"
-        android:padding="8dp">
-
         <!-- Username -->
         <TextView
             android:text="Username:"
@@ -20,8 +12,7 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textSize="16sp"
-            android:minHeight="48dp"
-            android:padding="8dp"
+            android:minHeight="40dp"
             android:layout_marginBottom="12dp"/>
 
         <TextView
@@ -29,8 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:minHeight="48dp"
-            android:padding="8dp"
+            android:minHeight="40dp"
             android:layout_marginBottom="12dp"/>
 
         <!-- Email -->
@@ -40,8 +30,7 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textSize="16sp"
-            android:minHeight="48dp"
-            android:padding="8dp"
+            android:minHeight="40dp"
             android:layout_marginBottom="12dp"/>
 
         <TextView
@@ -49,8 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:minHeight="48dp"
-            android:padding="8dp"
+            android:minHeight="40dp"
             android:layout_marginBottom="12dp"/>
 
         <!-- Nome -->
@@ -60,8 +48,7 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textSize="16sp"
-            android:minHeight="48dp"
-            android:padding="8dp"/>
+            android:minHeight="40dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -74,8 +61,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
-                android:minHeight="48dp"
-                android:padding="8dp"/>
+                android:minHeight="40dp"/>
 
             <EditText
                 android:id="@+id/etName"
@@ -83,8 +69,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
-                android:minHeight="48dp"
-                android:padding="8dp"
+                android:minHeight="40dp"
                 android:hint="Indique o seu nome"
                 android:visibility="gone"/>
         </LinearLayout>
@@ -96,8 +81,7 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textSize="16sp"
-            android:minHeight="48dp"
-            android:padding="8dp"/>
+            android:minHeight="40dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -110,8 +94,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
-                android:minHeight="48dp"
-                android:padding="8dp"/>
+                android:minHeight="40dp"/>
 
             <EditText
                 android:id="@+id/etBirthdate"
@@ -119,8 +102,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
-                android:minHeight="48dp"
-                android:padding="8dp"
+                android:minHeight="40dp"
                 android:hint="AAAA/MM/DD"
                 android:inputType="date"
                 android:visibility="gone"/>
@@ -133,8 +115,7 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textSize="16sp"
-            android:minHeight="48dp"
-            android:padding="8dp"/>
+            android:minHeight="40dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -147,8 +128,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
-                android:minHeight="48dp"
-                android:padding="8dp"/>
+                android:minHeight="40dp"/>
 
             <EditText
                 android:id="@+id/etCity"
@@ -156,8 +136,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
-                android:minHeight="48dp"
-                android:padding="8dp"
+                android:minHeight="40dp"
                 android:hint="Indique a sua cidade"
                 android:visibility="gone"/>
         </LinearLayout>
@@ -169,8 +148,7 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textSize="16sp"
-            android:minHeight="48dp"
-            android:padding="8dp"/>
+            android:minHeight="40dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -183,8 +161,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
-                android:minHeight="48dp"
-                android:padding="8dp"/>
+                android:minHeight="40dp"/>
 
             <EditText
                 android:id="@+id/etCountry"
@@ -192,13 +169,10 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
-                android:minHeight="48dp"
-                android:padding="8dp"
+                android:minHeight="40dp"
                 android:hint="Indique o seu país"
                 android:visibility="gone"/>
         </LinearLayout>
-
-    </GridLayout>
 
     <!-- Botões -->
     <LinearLayout

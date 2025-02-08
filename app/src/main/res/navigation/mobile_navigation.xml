@@ -40,6 +40,22 @@
     <fragment
         android:id="@+id/addMatchFragment"
         android:name="com.example.finalprojectandroid.ui.matches.AddMatchFragment"
-        android:label="Adicionar Partida">
+        android:label="Adicionar Partida"
+        tools:layout="@layout/fragment_addmatch" />
+
+    <fragment
+        android:id="@+id/matchDetailsFragment"
+        android:name="com.example.finalprojectandroid.ui.matches.MatchDetailsFragment"
+        android:label="Detalhes da Partida">
+        <argument
+            android:name="match_id"
+            app:argType="integer" />
     </fragment>
+
+    <fragment
+        android:id="@+id/EditMatchFragment"
+        android:name="com.example.finalprojectandroid.ui.matches.EditMatchFragment"
+        android:label="Edit Match"
+        tools:layout="@layout/fragment_editmatch" />
+
 </navigation>

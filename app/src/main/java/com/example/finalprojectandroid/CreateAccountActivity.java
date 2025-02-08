@@ -15,14 +15,11 @@ import java.util.ArrayList;
 public class CreateAccountActivity extends AppCompatActivity {
 
     private DatabaseHelper dbHelper;
-    private EditText etUsername, etEmail, etPassword;
+    private EditText etUsername, etEmail, etPassword, etPasswordConfirm; // Novo campo
     private Button btnRegistrar;
     private userDAO userDAO;
-
     private ListView listViewUtilizadores;
-
     private ArrayAdapter<String> adapter;
-
     private ArrayList<String> listaUtilizadores;
 
     @Override
@@ -35,21 +32,30 @@ public class CreateAccountActivity extends AppCompatActivity {
         etUsername = findViewById(R.id.etUsername);
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
+        etPasswordConfirm = findViewById(R.id.etRepeatPassword); // Inicialize o campo de confirmação de senha
         btnRegistrar = findViewById(R.id.btnRegistrar);
         userDAO = new userDAO(this);
         listViewUtilizadores = findViewById(R.id.listViewUtilizadores);
 
         listaUtilizadores = new ArrayList<>();
-        adapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,listaUtilizadores);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listaUtilizadores);
         listViewUtilizadores.setAdapter(adapter);
 
-        carregarUtilizadores();
+        listUsers();
 
         btnRegistrar.setOnClickListener(v -> {
             String username = etUsername.getText().toString();
             String email = etEmail.getText().toString();
             String password = etPassword.getText().toString();
+            String confirmPassword = etPasswordConfirm.getText().toString(); // Pega o valor de confirmar senha
 
+            // Verifica se a senha e a confirmação coincidem
+            if (!password.equals(confirmPassword)) {
+                Toast.makeText(this, "As senhas não coincidem!", Toast.LENGTH_SHORT).show();
+                return; // Impede o registro se as senhas não coincidirem
+            }
+
+            // Criação da conta
             if (userDAO.registerUser(username, email, password)) {
                 Toast.makeText(this, "Conta criada!", Toast.LENGTH_SHORT).show();
                 finish();
@@ -57,13 +63,11 @@ public class CreateAccountActivity extends AppCompatActivity {
                 Toast.makeText(this, "Erro ao criar conta!", Toast.LENGTH_SHORT).show();
             }
         });
-
-
     }
 
-    private void carregarUtilizadores() {
+    private void listUsers() {
         listaUtilizadores.clear();
-        Cursor cursor = dbHelper.listarUtilizadores();
+        Cursor cursor = dbHelper.listUsers();
 
         if (cursor.moveToFirst()) {
             do {
@@ -78,4 +82,5 @@ public class CreateAccountActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 }
+
 

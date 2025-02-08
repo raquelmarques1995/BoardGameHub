@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Label para Nome do Jogo -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nome do Jogo*"
+        android:textSize="16sp"
+        android:layout_marginBottom="4dp"/>
+
+    <EditText
+        android:id="@+id/editTextGameName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Insira o nome do jogo"
+        android:textSize="14sp"/>
+
+    <!-- Label para Data da Partida -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Data da Partida*"
+        android:textSize="16sp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="4dp"/>
+
+    <EditText
+        android:id="@+id/editTextMatchDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Insira a data da partida"
+        android:inputType="date"
+        android:textSize="14sp"/>
+
+    <!-- Label para Número de Jogadores -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Número de Jogadores"
+        android:textSize="16sp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="4dp"/>
+
+    <EditText
+        android:id="@+id/editTextNumberPlayers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Insira o nº de Jogadores"
+        android:inputType="number"
+        android:textSize="14sp"/>
+
+    <!-- Label para Duração -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Duração"
+        android:textSize="16sp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="4dp"/>
+
+    <EditText
+        android:id="@+id/editTextDuration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Insira a duração"
+        android:inputType="number"
+        android:textSize="14sp"/>
+
+    <!-- Label para Pontuação -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pontuação"
+        android:textSize="16sp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="4dp"/>
+
+    <EditText
+        android:id="@+id/editTextScore"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Insira a pontuação"
+        android:inputType="number"
+        android:textSize="14sp"/>
+
+    <!-- Label para Notas -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Notas"
+        android:textSize="16sp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="4dp"/>
+
+    <EditText
+        android:id="@+id/editTextNotes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Notas"
+        android:inputType="textMultiLine"
+        android:textSize="14sp"/>
+
+    <Button
+        android:id="@+id/btnSaveMatch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Salvar" />
+
+</LinearLayout>

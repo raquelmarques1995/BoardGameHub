@@ -9,8 +9,12 @@ import android.util.Log;
 
 import com.example.finalprojectandroid.ui.matches.Match;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -29,7 +33,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "username TEXT UNIQUE NOT NULL, " +
                 "email TEXT UNIQUE NOT NULL," +
                 "name TEXT," +
-                "birthdate DATE," +
+                "birthdate TEXT," +
                 "city TEXT," +
                 "country TEXT" +
                 ")";
@@ -46,8 +50,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String CREATE_MATCHES_TABLE = "CREATE TABLE matches (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "user_id INTEGER NOT NULL, " +
-                "game_name TEXT NOT NULL, " + //este campo deverá passar para uma dropdown list que vem da lista Os meus jogos
-                "match_date DATE NOT NULL, " +
+                "game_name TEXT NOT NULL, " +   // este campo terá de ser alterado
+                "match_date TEXT NOT NULL, " +
+                "number_players INTEGER," +
+                "duration INTEGER," +
                 "score INTEGER, " +
                 "notes TEXT, " +
                 "FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE" +
@@ -62,15 +68,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if (oldVersion < 2) {
-            db.execSQL("ALTER TABLE users ADD COLUMN name TEXT");
-            db.execSQL("ALTER TABLE users ADD COLUMN birthdate TEXT");
-            db.execSQL("ALTER TABLE users ADD COLUMN city TEXT");
-            db.execSQL("ALTER TABLE users ADD COLUMN country TEXT");
-        }
+       //PARA JÁ NADA A MENCIONAR
     }
 
-    public Cursor listarUtilizadores() {
+    public Cursor listUsers() {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery("SELECT * FROM users",null);
     }
@@ -111,13 +112,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public boolean insertMatch(String userId, String gameName, String matchDate, int score, String notes) {
+    public boolean insertMatch(String userId, String gameName, String matchDate, int numberPlayers, int duration, int score, String notes) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
         values.put("user_id", userId);
         values.put("game_name", gameName);
         values.put("match_date", matchDate);
+        values.put("number_players", numberPlayers);
+        values.put("duration",duration);
         values.put("score", score);
         values.put("notes", notes);
 
@@ -128,37 +131,139 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public ArrayList<Match> getMatchesByUserId(int userId) {
+    public ArrayList<Match> getMatchesByUserId(String userId) {
         ArrayList<Match> matchList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery("SELECT * FROM matches WHERE user_id = ?", new String[]{String.valueOf(userId)});
+        Cursor cursor = db.rawQuery("SELECT * FROM matches WHERE user_id = ?", new String[]{userId});
 
-        if (cursor.moveToFirst()) {
-            do {
-                Match match = new Match(
-                        cursor.getInt(0),
-                        cursor.getInt(1),
-                        cursor.getString(2),
-                        cursor.getString(3),
-                        cursor.getInt(4),
-                        cursor.getString(5)
-                );
-                matchList.add(match);
-            } while (cursor.moveToNext());
+        if (cursor != null) {
+            // Ajuste aqui o formato para o tipo correto de data que está no banco (dd/MM/yyyy)
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+
+            if (cursor.moveToFirst()) {
+                do {
+                    Date matchDate = null;
+                    String dateStr = cursor.getString(cursor.getColumnIndexOrThrow("match_date"));
+
+                    // Verifica se a data não é null ou vazia antes de tentar converter
+                    if (dateStr != null && !dateStr.isEmpty()) {
+                        try {
+                            matchDate = dateFormat.parse(dateStr);
+                            Log.d("Database", "Data convertida: " + matchDate); // Log para verificar se a data foi convertida com sucesso
+                        } catch (ParseException e) {
+                            Log.e("Database", "Erro ao converter data: " + dateStr, e);
+                        }
+                    } else {
+                        Log.e("Database", "Data vazia ou null para a partida com ID: " + cursor.getInt(cursor.getColumnIndexOrThrow("id")));
+                    }
+
+                    // Criar a instância de Match e adicionar à lista
+                    Match match = new Match(
+                            cursor.getInt(cursor.getColumnIndexOrThrow("id")),               // ID da partida
+                            cursor.getInt(cursor.getColumnIndexOrThrow("user_id")),          // ID do usuário
+                            cursor.getString(cursor.getColumnIndexOrThrow("game_name")),     // Nome do jogo
+                            matchDate,                                                       // Data da partida convertida
+                            cursor.getInt(cursor.getColumnIndexOrThrow("number_players")),   // Número de jogadores
+                            cursor.getInt(cursor.getColumnIndexOrThrow("duration")),         // Duração da partida
+                            cursor.getInt(cursor.getColumnIndexOrThrow("score")),            // Pontuação
+                            cursor.getString(cursor.getColumnIndexOrThrow("notes"))          // Notas
+                    );
+
+                    matchList.add(match); // Adiciona a partida à lista
+                } while (cursor.moveToNext());
+            }
+
+            cursor.close(); // Fecha o cursor para evitar memory leaks
         }
-        cursor.close();
-        db.close();
-        return matchList;
+
+        db.close(); // Fecha a conexão com o banco de dados
+        return matchList; // Retorna a lista de partidas
     }
 
 
 
+    public Match getMatchById(int matchId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Match match = null;
+
+        Cursor cursor = db.rawQuery("SELECT * FROM matches WHERE id = ?", new String[]{String.valueOf(matchId)});
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()); // Ajuste para o formato correto
+                Date matchDate = null;
+
+                String dateStr = cursor.getString(cursor.getColumnIndexOrThrow("match_date"));
+                Log.e("DatabaseHelper", "match_date lido do banco: " + dateStr);
+
+                if (dateStr != null && !dateStr.isEmpty()) {
+                    try {
+                        matchDate = dateFormat.parse(dateStr);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        Log.e("DatabaseHelper", "Erro ao converter data: " + dateStr);
+                    }
+                } else {
+                    Log.e("DatabaseHelper", "match_date é NULL no banco para matchId: " + matchId);
+                    matchDate = new Date(); // Define a data atual como padrão
+                }
+
+                match = new Match(
+                        cursor.getInt(cursor.getColumnIndexOrThrow("id")),
+                        cursor.getInt(cursor.getColumnIndexOrThrow("user_id")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("game_name")),
+                        matchDate,
+                        cursor.getInt(cursor.getColumnIndexOrThrow("number_players")),
+                        cursor.getInt(cursor.getColumnIndexOrThrow("duration")),
+                        cursor.getInt(cursor.getColumnIndexOrThrow("score")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("notes"))
+                );
+            }
+            cursor.close();
+        }
+
+        db.close();
+        return match;
+    }
 
 
+    public boolean updateMatch(int matchId, String gameName, String matchDate, int numberPlayers, int duration, int score, String notes) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Criar o ContentValues e adicionar os valores
+        ContentValues values = new ContentValues();
+        values.put("game_name", gameName);
+        values.put("match_date", matchDate);
+        values.put("number_players", numberPlayers != 0 ? numberPlayers : null);
+        values.put("duration", duration != 0 ? duration : null);
+        values.put("score", score != 0 ? score : null);
+        values.put("notes", notes != null ? notes : null);
+
+        // Atualiza o banco de dados
+        int rowsUpdated = db.update("matches", values, "id = ?", new String[]{String.valueOf(matchId)});
+        db.close();
+
+        return rowsUpdated > 0;
+    }
 
 
-
+    public boolean deleteMatch(int matchId) {
+        SQLiteDatabase db = null;
+        boolean success = false;
+        try {
+            db = this.getWritableDatabase();
+            int rowsDeleted = db.delete("matches", "id = ?", new String[]{String.valueOf(matchId)});
+            success = rowsDeleted > 0; // Retorna true se ao menos uma linha foi deletada
+        } catch (Exception e) {
+            e.printStackTrace(); // Log do erro para facilitar debugging
+        } finally {
+            if (db != null) {
+                db.close(); // Fecha a conexão com a base de dados
+            }
+        }
+        return success;
+    }
 
 }
 
