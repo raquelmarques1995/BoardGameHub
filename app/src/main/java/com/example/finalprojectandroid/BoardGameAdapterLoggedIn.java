@@ -1,16 +1,21 @@
 package com.example.finalprojectandroid;
 
+import androidx.fragment.app.Fragment;
+
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -28,6 +33,9 @@ public class BoardGameAdapterLoggedIn extends RecyclerView.Adapter<BoardGameAdap
 
     private Context context;
     private List<BoardGame> boardGameList;
+
+    private int userId;
+    private DatabaseHelper dbHelper;
 
     public BoardGameAdapterLoggedIn(Context context, List<BoardGame> boardGameList) {
         this.context = context;
@@ -80,6 +88,7 @@ public class BoardGameAdapterLoggedIn extends RecyclerView.Adapter<BoardGameAdap
         TextView gameDetailsTextView = dialogView.findViewById(R.id.gameDetailsTextView);
         Button goToWebsiteButton = dialogView.findViewById(R.id.goToWebsiteButton);
         Button goToDetailsButton = dialogView.findViewById(R.id.goToDetailsButton);
+        Button addToMyGames = dialogView.findViewById(R.id.addToMyGamesButton);
         Button closeButton = dialogView.findViewById(R.id.closeButton);
 
 
@@ -132,6 +141,27 @@ public class BoardGameAdapterLoggedIn extends RecyclerView.Adapter<BoardGameAdap
             // Navigate to the BoardGameDetailsFragment with the bundle
             NavController navController = Navigation.findNavController((Activity) context, R.id.nav_host_fragment);
             navController.navigate(R.id.boardGameDetailsFragment, bundle);  // Correct ID of the BoardGameDetailsFragment
+
+            dialog.dismiss();
+        });
+
+        // Botão para adicionar aos meus jogos
+        addToMyGames.setOnClickListener(v -> {
+            dbHelper = new DatabaseHelper(context);
+            userId = Integer.parseInt(Utils.readUserID(context));
+
+            // Insert a game for user with id 1 and game id 10
+            boolean isInserted = dbHelper.insertGameToMyGames(userId, game.getId());
+            Log.d("Databaseinput", "Utilizador: " + userId + " Idjogo: " + String.valueOf(game.getId()));
+            if (isInserted) {
+                Toast.makeText(context, game.getName() + " added to My Games list", Toast.LENGTH_SHORT).show();
+
+                Log.d("Database", "Game inserted successfully.");
+            } else {
+                Toast.makeText(context, "Failed to add game", Toast.LENGTH_SHORT).show();
+
+                Log.d("Database", "Failed to insert game.");
+            }
 
             dialog.dismiss();
         });

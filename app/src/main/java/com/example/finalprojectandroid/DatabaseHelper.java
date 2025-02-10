@@ -19,7 +19,7 @@ import java.util.Locale;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "boardgames.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -60,21 +60,42 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE" +
                 ")";
 
+        //Tabela dos meus jogos
+        String CREATE_MYGAMES_TABLE = "CREATE TABLE mygames (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "user_id INTEGER NOT NULL, " +
+                "game_id INTEGER NOT NULL, " +
+                "FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE, " +
+                "FOREIGN KEY (game_id) REFERENCES matches(id) ON DELETE CASCADE" +
+                ")";
+
 
         db.execSQL(CREATE_USER_TABLE);
         db.execSQL(CREATE_CREDENTIALS_TABLE);
         db.execSQL(CREATE_MATCHES_TABLE);
+        db.execSQL(CREATE_MYGAMES_TABLE);
+
     }
 
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // This will delete the existing tables and recreate them when the version changes
-        if (oldVersion < 2) { // or any other logic to handle version upgrades
+        if (oldVersion < 2) {
             db.execSQL("DROP TABLE IF EXISTS users");
             db.execSQL("DROP TABLE IF EXISTS user_credentials");
             db.execSQL("DROP TABLE IF EXISTS matches");
             onCreate(db);
+        }
+
+        if (oldVersion < 3) { // New upgrade logic for mygames table
+            String CREATE_MYGAMES_TABLE = "CREATE TABLE mygames (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "user_id INTEGER NOT NULL, " +
+                    "game_id INTEGER NOT NULL, " +
+                    "FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE, " +
+                    "FOREIGN KEY (game_id) REFERENCES matches(id) ON DELETE CASCADE" +
+                    ")";
+            db.execSQL(CREATE_MYGAMES_TABLE);
         }
     }
 
@@ -82,6 +103,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery("SELECT * FROM users",null);
     }
+
 
     public User getUserById(int userId) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -272,5 +294,64 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return success;
     }
 
+    public boolean insertGameToMyGames(int userId, int gameId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("user_id", userId);
+        values.put("game_id", gameId);
+
+        long result = db.insert("mygames", null, values);
+        db.close();
+
+        return result != -1; // returns true if insertion was successful
+    }
+
+    public List<Integer> getGamesByUserId(int userId) {
+        List<Integer> gameIds = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT game_id FROM mygames WHERE user_id = ?", new String[]{String.valueOf(userId)});
+
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                gameIds.add(cursor.getInt(cursor.getColumnIndexOrThrow("game_id")));
+            }
+            cursor.close();
+        }
+
+        db.close();
+        return gameIds;
+    }
+
+    public List<Integer> getUsersByGameId(int gameId) {
+        List<Integer> userIds = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT user_id FROM mygames WHERE game_id = ?", new String[]{String.valueOf(gameId)});
+
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                userIds.add(cursor.getInt(cursor.getColumnIndexOrThrow("user_id")));
+            }
+            cursor.close();
+        }
+
+        db.close();
+        return userIds;
+    }
+
+    // Method to delete a specific game-user entry (from the 'mygames' table)
+    public boolean deleteGameFromMyGames(int userId, int gameId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Delete the entry that links the user and the game
+        int rowsDeleted = db.delete("mygames",
+                "user_id = ? AND game_id = ?",
+                new String[]{String.valueOf(userId), String.valueOf(gameId)});
+
+        db.close();
+
+        return rowsDeleted > 0; // Returns true if a row was deleted
+    }
 }
 
