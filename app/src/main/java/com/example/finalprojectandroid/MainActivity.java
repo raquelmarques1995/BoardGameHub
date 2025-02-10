@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
             linearButton.setOnClickListener(v -> {
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
-                finish();
+                // Pode-se descomentar depois finish();
             });
 
             // Botão para abrir Criar Conta
@@ -66,12 +66,12 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             });
 
-//        // Botão para abrir Catálogo
-//        Button linearButton = findViewById(R.id.btnCatalogo);
-//        linearButton.setOnClickListener(v -> {
-//            Intent intent = new Intent(MainActivity.this, LinearLayoutActivity.class);
-//            startActivity(intent);
-//        });
+        // Botão para abrir Catálogo
+        Button catalogue = findViewById(R.id.btnCatalogo);
+            catalogue.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, CatalogueActivity.class);
+            startActivity(intent);
+        });
         }
     public void dropDatabase(View view) {
         File dbFile = getApplicationContext().getDatabasePath("appDB.db");

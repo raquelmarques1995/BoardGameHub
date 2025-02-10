@@ -19,7 +19,7 @@ import java.util.Locale;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "boardgames.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -27,6 +27,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        Log.d("DatabaseHelper", "onCreate called");
         // Tabela de utilizadores (dados gerais)
         String CREATE_USER_TABLE = "CREATE TABLE users (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -68,7 +69,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-       //PARA JÁ NADA A MENCIONAR
+        // This will delete the existing tables and recreate them when the version changes
+        if (oldVersion < 2) { // or any other logic to handle version upgrades
+            db.execSQL("DROP TABLE IF EXISTS users");
+            db.execSQL("DROP TABLE IF EXISTS user_credentials");
+            db.execSQL("DROP TABLE IF EXISTS matches");
+            onCreate(db);
+        }
     }
 
     public Cursor listUsers() {
