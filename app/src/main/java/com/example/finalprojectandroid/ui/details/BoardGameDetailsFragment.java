@@ -33,9 +33,9 @@ public class BoardGameDetailsFragment extends Fragment {
         // Retrieve the BoardGameDetails object from the bundle
         Bundle bundle = getArguments();
         boardGameDetails = (BoardGameDetails) bundle.getSerializable("board_game_details");
-        String gameName = bundle.getString("game_name");  // Get game name
-        int gameYear = bundle.getInt("game_year");  // Get game year
-        int gameId= bundle.getInt("game_id"); //Get game id, it's working properly
+        String gameName = bundle.getString("game_name");
+        int gameYear = bundle.getInt("game_year");
+        int gameId= bundle.getInt("game_id");
 
         // Access the UI elements
         nameTextView = rootView.findViewById(R.id.nameTextView);
@@ -45,13 +45,13 @@ public class BoardGameDetailsFragment extends Fragment {
 
         // Set the game name and year
         nameTextView.setText(gameName);
-        yearTextView.setText("Year: " + boardGameDetails.getYearPublished());
+        yearTextView.setText("Ano: " + boardGameDetails.getYearPublished());
 
         // Set the description text
         if (boardGameDetails != null && boardGameDetails.getDescription() != null) {
             descriptionTextView.setText(Html.fromHtml(boardGameDetails.getDescription(),Html.FROM_HTML_MODE_LEGACY));
         } else {
-            descriptionTextView.setText("No description available");
+            descriptionTextView.setText("Não existe nenhum descrição disponível.");
         }
 
         // Load the game image if available
@@ -68,11 +68,9 @@ public class BoardGameDetailsFragment extends Fragment {
         // Back button functionality
         Button backButton = rootView.findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> {
-            // You can use NavController to navigate back
             NavController navController = Navigation.findNavController(v);
-            navController.popBackStack();  // Pop the current fragment from the back stack
+            navController.popBackStack();
         });
-
         return rootView;
     }
 }

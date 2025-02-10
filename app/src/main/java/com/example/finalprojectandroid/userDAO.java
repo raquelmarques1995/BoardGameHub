@@ -15,17 +15,17 @@ public class userDAO {
         dbHelper = new DatabaseHelper(context);
     }
 
-    // Metodo para registar um novo utilizador
+    // Register User
     public boolean registerUser(String username, String email, String password) {
         db = dbHelper.getWritableDatabase();
 
-        // Criar um salt aleatório
+        // Create a random salt
         String salt = generateSalt();
 
-        // Gerar o hash da password com o salt
+        // Generate the password hash with the salt
         String hashedPassword = PasswordUtils.hashPassword(password, salt);
 
-        // Inserir na tabela "users" e obter o ID do utilizador
+        // Insert into the 'users' table and get the user ID
         ContentValues userValues = new ContentValues();
         userValues.put("username", username);
         userValues.put("email", email);
@@ -37,7 +37,7 @@ public class userDAO {
             return false;
         }
 
-        // Inserir na tabela "user_credentials"
+        // Insert into the 'user_credentials' table
         ContentValues credentialsValues = new ContentValues();
         credentialsValues.put("id_user", userId);
         credentialsValues.put("passwordHash", hashedPassword);
@@ -49,11 +49,11 @@ public class userDAO {
         return credentialsResult != -1;
     }
 
-    // Metodo para verificar o login
+    // Method to verify the login
     public boolean loginUser(String email, String password) {
         db = dbHelper.getReadableDatabase();
 
-        // Buscar ID do utilizador e credenciais
+        // UserID and credencials
         String query = "SELECT uc.passwordHash, uc.salt FROM user_credentials uc " +
                 "INNER JOIN users u ON uc.id_user = u.id WHERE u.email = ?";
 
@@ -78,17 +78,14 @@ public class userDAO {
         return Base64.getEncoder().encodeToString(salt);
     }
 
-    // Método para obter o id do utilizador através do email
+    // Method to get the user ID through the email
     public int getUserIdByEmail(String email) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT id FROM users WHERE email = ?", new String[]{email});
-
         int userId = -1; // Default to -1 if not found
-
         if (cursor.moveToFirst()) {
             userId = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
         }
-
         cursor.close();
         return userId;
     }

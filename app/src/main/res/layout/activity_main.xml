@@ -6,18 +6,7 @@
     android:gravity="center"
     android:orientation="vertical"
     android:padding="20dp"
-    android:background="@drawable/background2"> <!-- Substitua pelo nome da sua imagem -->>
-
-    <Button
-        android:id="@+id/btnDropDatabase"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Apagar Base de Dados"
-        android:onClick="dropDatabase"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="16dp"/>
+    android:background="@drawable/background2">
 
 
     <Button

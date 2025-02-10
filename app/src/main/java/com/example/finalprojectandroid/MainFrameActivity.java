@@ -11,16 +11,11 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.finalprojectandroid.databinding.ActivityMainframeBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import android.util.Log;
-import android.widget.TextView;
-import android.widget.Toast;
-
 
 
 public class MainFrameActivity extends AppCompatActivity {
     private ActivityMainframeBinding binding;
 
-    private TextView userIdTextViewInterno;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,14 +23,7 @@ public class MainFrameActivity extends AppCompatActivity {
         binding = ActivityMainframeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
-        //Isto é apenas um teste para verificar se ele é capaz de ir buscar o id para dentro de qualquer activity
-        //na qual esteja a ser necessária a sessão
-        Log.e("Leitura userID",Utils.readUserID(this));
-
-        // Get user ID from the internal file using the static method
-        String fileContent = Utils.readUserID(this);  // Pass the context (this) to read the file
-
+        String fileContent = Utils.readUserID(this);
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
 

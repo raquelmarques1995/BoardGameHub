@@ -47,15 +47,15 @@ public class CreateAccountActivity extends AppCompatActivity {
             String username = etUsername.getText().toString();
             String email = etEmail.getText().toString();
             String password = etPassword.getText().toString();
-            String confirmPassword = etPasswordConfirm.getText().toString(); // Pega o valor de confirmar senha
+            String confirmPassword = etPasswordConfirm.getText().toString();
 
-            // Verifica se a senha e a confirmação coincidem
+
             if (!password.equals(confirmPassword)) {
                 Toast.makeText(this, "As senhas não coincidem!", Toast.LENGTH_SHORT).show();
-                return; // Impede o registro se as senhas não coincidirem
+                return;
             }
 
-            // Criação da conta
+
             if (userDAO.registerUser(username, email, password)) {
                 Toast.makeText(this, "Conta criada!", Toast.LENGTH_SHORT).show();
                 finish();

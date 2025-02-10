@@ -37,7 +37,7 @@ public class GamesFragment extends Fragment {
     private RecyclerView recyclerView;
     private BoardGameAdapterGames boardGameAdapterGames;
     private List<BoardGame> boardGameList;
-    private List<Integer> gameIds;  // Declare this as a class-level variable
+    private List<Integer> gameIds;
 
     @Nullable
     @Override
@@ -65,7 +65,7 @@ public class GamesFragment extends Fragment {
 
     private void fetchAndLogUserGames() {
         // Fetch the list of game IDs from the database
-        gameIds = dbHelper.getGamesByUserId(userId);  // Now this is a class-level variable
+        gameIds = dbHelper.getGamesByUserId(userId);
 
         if (gameIds != null && !gameIds.isEmpty()) {
             boardGameList = new ArrayList<>();
@@ -97,7 +97,7 @@ public class GamesFragment extends Fragment {
                         boardGameList.add(game);
 
                         // Once all games are fetched, update the adapter and RecyclerView
-                        if (boardGameList.size() == gameIds.size()) {  // Now `gameIds` is accessible here
+                        if (boardGameList.size() == gameIds.size()) {
                             boardGameAdapterGames = new BoardGameAdapterGames(getContext(), boardGameList);
                             recyclerView.setAdapter(boardGameAdapterGames);
                         }

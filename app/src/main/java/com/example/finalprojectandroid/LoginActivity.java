@@ -14,7 +14,6 @@ import java.io.FileOutputStream;
 
 public class LoginActivity extends AppCompatActivity {
 
-    // TODO alterar nome de filename "user_id_logado" para "userinsession"
     private final String FILE_NAME ="userInSession.txt";
     private EditText etEmailLogin, etPasswordLogin;
     private Button btnLogin;
@@ -39,16 +38,14 @@ public class LoginActivity extends AppCompatActivity {
 
                 // Retrieve the user ID using the email
                 int userId = userDAO.getUserIdByEmail(email);
-                System.out.println("DEBUG: User ID Retrieved = " + userId);
 
                 if (userId == -1) {
-                    Toast.makeText(this, "Erro: User ID not found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Erro: Utilizador não encontrado.", Toast.LENGTH_SHORT).show();
                     return; // Stop execution if user ID is invalid
                 }
 
                 // Redirect to MainFrame
                 Intent intent = new Intent(LoginActivity.this, MainFrameActivity.class);
-                //LOGIN PERSISTENTE.
                 saveUserId(Integer.toString(userId));
                 startActivity(intent);
                 finish(); // Close LoginActivity
@@ -63,11 +60,8 @@ public class LoginActivity extends AppCompatActivity {
             FileOutputStream fos = openFileOutput(FILE_NAME, MODE_PRIVATE);
             fos.write(texto.getBytes());
             fos.close();
-            Log.e("DEBUG: String com userid",texto);
-            Toast.makeText(this, "Dados de login guardados com sucesso!", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e("DEBUG ERRO: String com userid",texto);
             Toast.makeText(this, "Erro ao guardar os dados de login!", Toast.LENGTH_SHORT).show();
         }
         File directory = getFilesDir();

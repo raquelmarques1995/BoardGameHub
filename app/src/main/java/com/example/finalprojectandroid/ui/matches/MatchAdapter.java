@@ -59,7 +59,7 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MatchViewHol
             txtMatchDate = itemView.findViewById(R.id.txtMatchDate);
             txtMatchScore = itemView.findViewById(R.id.txtScore);
 
-            // Definir o listener de clique
+            // Set the click listener
             itemView.setOnClickListener(v -> {
                 if (listener != null) {
                     listener.onItemClick(matchList.get(getAdapterPosition()));
@@ -70,10 +70,10 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MatchViewHol
         public void bind(Match match) {
             txtMatchName.setText(match.getGameName());
 
-            // Verifique o valor da data
+            //Check the date value
             Log.d("RecyclerView", "Match Date: " + match.getMatchDate());
 
-            // Formatar a data antes de exibir
+            // Format the date before displaying
             if (match.getMatchDate() != null) {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
                 txtMatchDate.setText(dateFormat.format(match.getMatchDate()));
@@ -82,7 +82,7 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MatchViewHol
             }
 
 
-            // Exibir o Pontuação
+            // Display the Score
             if (match.getScore() == -1000) {
                 txtMatchScore.setText("Pontuação: Sem pontuação");
             } else {

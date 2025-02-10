@@ -28,7 +28,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.d("DatabaseHelper", "onCreate called");
-        // Tabela de utilizadores (dados gerais)
         String CREATE_USER_TABLE = "CREATE TABLE users (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "username TEXT UNIQUE NOT NULL, " +
@@ -39,7 +38,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "country TEXT" +
                 ")";
 
-        // Tabela de credenciais (hash da password e salt)
+
         String CREATE_CREDENTIALS_TABLE = "CREATE TABLE user_credentials (" +
                 "id_user INTEGER PRIMARY KEY, " +
                 "passwordHash TEXT NOT NULL, " +
@@ -47,11 +46,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY (id_user) REFERENCES users(id) ON DELETE CASCADE)";
 
 
-        //Tabela das matches
+
         String CREATE_MATCHES_TABLE = "CREATE TABLE matches (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "user_id INTEGER NOT NULL, " +
-                "game_name TEXT NOT NULL, " +   // este campo terá de ser alterado
+                "game_name TEXT NOT NULL, " +
                 "match_date TEXT NOT NULL, " +
                 "number_players INTEGER," +
                 "duration INTEGER," +
@@ -60,7 +59,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE" +
                 ")";
 
-        //Tabela dos meus jogos
+
+
         String CREATE_MYGAMES_TABLE = "CREATE TABLE mygames (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "user_id INTEGER NOT NULL, " +
@@ -126,7 +126,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         db.close();
-        return null; // Retorna null se o user não for encontrado
+        return null;
     }
 
     public void updateUser(int userId, String name, String birthdate, String city, String country) {
@@ -156,7 +156,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         long result = db.insert("matches", null, values);
         db.close();
 
-        return result != -1; // Retorna true se a inserção foi bem-sucedida
+        return result != -1;
     }
 
 
@@ -167,7 +167,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("SELECT * FROM matches WHERE user_id = ?", new String[]{userId});
 
         if (cursor != null) {
-            // Ajuste aqui o formato para o tipo correto de data que está no banco (dd/MM/yyyy)
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 
             if (cursor.moveToFirst()) {
@@ -175,11 +174,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     Date matchDate = null;
                     String dateStr = cursor.getString(cursor.getColumnIndexOrThrow("match_date"));
 
-                    // Verifica se a data não é null ou vazia antes de tentar converter
                     if (dateStr != null && !dateStr.isEmpty()) {
                         try {
                             matchDate = dateFormat.parse(dateStr);
-                            Log.d("Database", "Data convertida: " + matchDate); // Log para verificar se a data foi convertida com sucesso
+                            Log.d("Database", "Data convertida: " + matchDate);
                         } catch (ParseException e) {
                             Log.e("Database", "Erro ao converter data: " + dateStr, e);
                         }
@@ -187,7 +185,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         Log.e("Database", "Data vazia ou null para a partida com ID: " + cursor.getInt(cursor.getColumnIndexOrThrow("id")));
                     }
 
-                    // Criar a instância de Match e adicionar à lista
                     Match match = new Match(
                             cursor.getInt(cursor.getColumnIndexOrThrow("id")),               // ID da partida
                             cursor.getInt(cursor.getColumnIndexOrThrow("user_id")),          // ID do usuário
@@ -199,17 +196,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                             cursor.getString(cursor.getColumnIndexOrThrow("notes"))          // Notas
                     );
 
-                    matchList.add(match); // Adiciona a partida à lista
+                    matchList.add(match);
                 } while (cursor.moveToNext());
             }
 
-            cursor.close(); // Fecha o cursor para evitar memory leaks
+            cursor.close();
         }
 
-        db.close(); // Fecha a conexão com o banco de dados
-        return matchList; // Retorna a lista de partidas
+        db.close();
+        return matchList;
     }
-
 
 
     public Match getMatchById(int matchId) {
@@ -256,11 +252,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return match;
     }
 
-
     public boolean updateMatch(int matchId, String gameName, String matchDate, int numberPlayers, int duration, int score, String notes) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        // Criar o ContentValues e adicionar os valores
         ContentValues values = new ContentValues();
         values.put("game_name", gameName);
         values.put("match_date", matchDate);
@@ -269,7 +263,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put("score", score != 0 ? score : null);
         values.put("notes", notes != null ? notes : null);
 
-        // Atualiza o banco de dados
         int rowsUpdated = db.update("matches", values, "id = ?", new String[]{String.valueOf(matchId)});
         db.close();
 
@@ -283,12 +276,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         try {
             db = this.getWritableDatabase();
             int rowsDeleted = db.delete("matches", "id = ?", new String[]{String.valueOf(matchId)});
-            success = rowsDeleted > 0; // Retorna true se ao menos uma linha foi deletada
+            success = rowsDeleted > 0;
         } catch (Exception e) {
-            e.printStackTrace(); // Log do erro para facilitar debugging
+            e.printStackTrace();
         } finally {
             if (db != null) {
-                db.close(); // Fecha a conexão com a base de dados
+                db.close();
             }
         }
         return success;
@@ -361,14 +354,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean deleteGameFromMyGames(int userId, int gameId) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        // Delete the entry that links the user and the game
         int rowsDeleted = db.delete("mygames",
                 "user_id = ? AND game_id = ?",
                 new String[]{String.valueOf(userId), String.valueOf(gameId)});
 
         db.close();
 
-        return rowsDeleted > 0; // Returns true if a row was deleted
+        return rowsDeleted > 0;
     }
 }
 

@@ -28,64 +28,57 @@ public class MyMatchesFragment extends Fragment {
         private ArrayList<Match> matchList;
         private DatabaseHelper dbHelper;
 
-        private String userId; // ID do usuário logado
+        private String userId; // ID do used logged In
 
         public MyMatchesFragment() {
-            // Construtor vazio obrigatório
+            // Empty constructor required
         }
 
-        @Override // Metodo subscrito da classe Fragment e é responsável por criar e retornar a View deste fragmento
+        @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            View view = inflater.inflate(R.layout.fragment_mymatches, container, false);//O layout xml é transformado na view
+            View view = inflater.inflate(R.layout.fragment_mymatches, container, false);
 
-            //Gestor de layout (LinearLayoutManager), que organiza os itens numa lista vertical.
+            //Layout manager (LinearLayoutManager), which arranges items in a vertical list
             recyclerView = view.findViewById(R.id.recyclerViewMatches);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
             Button btnAddMatch = view.findViewById(R.id.btnAddMatch);
             btnAddMatch.setOnClickListener(v -> {
-                // NavController é usado para a navegação entre fragmentos, vai buscar o nav_host_fragment e direciona-o para addMatchFragment.
                 NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
                 navController.navigate(R.id.addMatchFragment);
             });
 
-            //Cria uma instância do DatabaseHelper, que gere o banco de dados SQLite.
             dbHelper = new DatabaseHelper(getContext());
 
-            // metodo que carrega as partidas do user logged in
             loadMatches(view);
 
-            //Retorna a View criada para que o fragmento possa exibi-la.
+            //Return the created View so that the fragment can display it.
             return view;
         }
 
 
 
     private void loadMatches(View view) {
-        // Obter o userID guardado no arquivo através do metodo readUserID
         userId = Utils.readUserID(requireContext());
 
-        // Chama o metodo getMatchesByUserId(userId) do DatabaseHelper, para consultar a base de dados SQLite e retornar uma lista de partidas associadas ao user logged in.
         matchList = dbHelper.getMatchesByUserId(userId);
 
-        // Verifica se a lista de partidas está vazia
-        TextView messageView = view.findViewById(R.id.textViewMessage); // Usando o 'view' passado como parâmetro
+        TextView messageView = view.findViewById(R.id.textViewMessage);
         if (matchList.isEmpty()) {
-            messageView.setVisibility(View.VISIBLE);  // Torna o TextView visível
-            messageView.setText("Nenhuma partida encontrada!");  // Atualiza o texto da mensagem
+            messageView.setVisibility(View.VISIBLE);
+            messageView.setText("Nenhuma partida encontrada!");
         } else {
-            messageView.setVisibility(View.GONE);  // Esconde o TextView se houver partidas
+            messageView.setVisibility(View.GONE);
         }
 
-        // Cria e configura o adaptador
+        // Create and configure the adapter
         matchAdapter = new MatchAdapter(getContext(), matchList);
         recyclerView.setAdapter(matchAdapter);
 
-        // Configura o clique nos itens da lista
+        // Set up the click on list items
         matchAdapter.setOnItemClickListener(match -> {
             Bundle bundle = new Bundle();
-            bundle.putInt("match_id", match.getId()); // Passa o ID da partida
-
+            bundle.putInt("match_id", match.getId());
             NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
             navController.navigate(R.id.matchDetailsFragment, bundle);
         });

@@ -37,7 +37,7 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        // Inicializar elementos do layout
+        // Initialize layout elements
         tvUsername = root.findViewById(R.id.tvUsername);
         tvEmail = root.findViewById(R.id.tvEmail);
         tvName = root.findViewById(R.id.tvName);
@@ -55,20 +55,20 @@ public class ProfileFragment extends Fragment {
         btnLogout = root.findViewById(R.id.btnLogout);
 
         databaseHelper = new DatabaseHelper(getContext());
-        userId = Integer.parseInt(Utils.readUserID(getContext())); // Obter o ID do user logado
+        userId = Integer.parseInt(Utils.readUserID(getContext()));
 
-        loadUserData(); // Carregar os dados do utilizador
+        loadUserData();
 
-        // Botão "Editar"
+        // Button "Editar"
         btnEdit.setOnClickListener(v -> toggleEditMode(true));
 
-        // Botão "Guardar"
+        // Button "Guardar"
         btnSave.setOnClickListener(v -> {
             saveUserData();
             toggleEditMode(false);
         });
 
-        // Botão "Logout"
+        // Button "Logout"
         btnLogout.setOnClickListener(v -> {
             logoutUser();
         });
@@ -76,7 +76,6 @@ public class ProfileFragment extends Fragment {
         return root;
     }
 
-    // Metodo para carregar os dados do utilizador
     private void loadUserData() {
         User user = databaseHelper.getUserById(userId);
         if (user != null) {
@@ -94,7 +93,7 @@ public class ProfileFragment extends Fragment {
         }
     }
 
-    // Método para alternar entre os modos de exibição e edição
+    // Method to toggle between display and edit modes
     private void toggleEditMode(boolean isEditing) {
         tvName.setVisibility(isEditing ? View.GONE : View.VISIBLE);
         tvBirthdate.setVisibility(isEditing ? View.GONE : View.VISIBLE);
@@ -111,7 +110,7 @@ public class ProfileFragment extends Fragment {
         btnSave.setVisibility(isEditing ? View.VISIBLE : View.GONE);
     }
 
-    // Metodo para guardar os dados alterados na base de dados
+
     private void saveUserData() {
         String newName = etName.getText().toString().trim();
         String newBirthdate = etBirthdate.getText().toString().trim();
@@ -124,19 +123,17 @@ public class ProfileFragment extends Fragment {
     }
 
     private void logoutUser() {
-        // Apagar o arquivo de sessão
+        //Delete the session file
         File file = new File(getContext().getFilesDir(), "userInSession.txt");
         if (file.exists()) {
             file.delete();
             Toast.makeText(getContext(), "Logout bem-sucedido!", Toast.LENGTH_SHORT).show();
 
-            // Redirecionar para a tela de Login
             Intent intent = new Intent(getActivity(), MainActivity.class);
             startActivity(intent);
-            getActivity().finish(); // Fechar a atividade atual
+            getActivity().finish();
         }
     }
-
 
     // Metodo para esconder o teclado
     private void hideKeyboard() {

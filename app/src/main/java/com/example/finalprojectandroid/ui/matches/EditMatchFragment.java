@@ -31,23 +31,23 @@ public class EditMatchFragment extends Fragment {
 
     private EditText editTextGameName, editTextMatchDate, editTextNumberPlayers, editTextDuration, editTextScore, editTextNotes;
     private DatabaseHelper dbHelper;
-    private int matchId; // ID da partida que vai ser editada
+    private int matchId;
 
-    private Date selectedDate; // Para armazenar a data selecionada como Date
+    private Date selectedDate;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_editmatch, container, false);
 
-        // Ativar a seta de voltar
+        //Activate the back arrow
         if (getActivity() instanceof AppCompatActivity) {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        setHasOptionsMenu(true); // Permite capturar eventos do menu
+        setHasOptionsMenu(true);
 
 
-        // Inicializa os EditText ANTES de chamar loadMatchData()
+        // Initialize the EditText BEFORE calling loadMatchData()
         editTextGameName = view.findViewById(R.id.editTextGameName);
         editTextMatchDate = view.findViewById(R.id.editTextMatchDate);
         editTextNumberPlayers = view.findViewById(R.id.editTextNumberPlayers);
@@ -55,7 +55,7 @@ public class EditMatchFragment extends Fragment {
         editTextScore = view.findViewById(R.id.editTextScore);
         editTextNotes = view.findViewById(R.id.editTextNotes);
 
-        // Configurar DatePicker
+        // Set up DatePicker
         editTextMatchDate.setOnClickListener(v -> {
             final Calendar calendar = Calendar.getInstance();
             int year = calendar.get(Calendar.YEAR);
@@ -65,14 +65,13 @@ public class EditMatchFragment extends Fragment {
             DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
                     (view1, selectedYear, selectedMonth, selectedDay) -> {
                         calendar.set(selectedYear, selectedMonth, selectedDay);
-                        selectedDate = calendar.getTime(); // Armazena a data como Date
-                        editTextMatchDate.setText(Utils.formatDate(selectedDate)); // Exibe no campo já formatado
+                        selectedDate = calendar.getTime();
+                        editTextMatchDate.setText(Utils.formatDate(selectedDate));
                     }, year, month, day);
 
             datePickerDialog.show();
         });
 
-        // Inicializa dbHelper
         dbHelper = new DatabaseHelper(getContext());
 
         if (getArguments() != null) {
@@ -82,7 +81,7 @@ public class EditMatchFragment extends Fragment {
             Log.e("EditMatchFragment", "Erro: matchId não recebido!");
         }
 
-        // SOMENTE CHAMA loadMatchData() APÓS A INICIALIZAÇÃO DOS EDITTEXT
+        // ONLY call loadMatchData() AFTER initializing the EditText
         if (matchId != -1) {
             loadMatchData();
         } else {
@@ -104,7 +103,7 @@ public class EditMatchFragment extends Fragment {
         if (match.getMatchDate() != null) {
             editTextMatchDate.setText(Utils.formatDate(match.getMatchDate()));
         } else {
-            editTextMatchDate.setText(""); // Ou definir um valor padrão, se necessário
+            editTextMatchDate.setText("");
             Log.e("EditMatchFragment", "Erro: matchDate é null!");
         }
 
@@ -117,14 +116,13 @@ public class EditMatchFragment extends Fragment {
     }
 
     private void showDatePickerDialog() {
-        // Exibe o DatePickerDialog
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), (view, year1, month1, dayOfMonth) -> {
-            // Formatar e atualizar o campo com a data escolhida
+            // Format and update the field with the selected date
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
             Calendar selectedDate = Calendar.getInstance();
             selectedDate.set(year1, month1, dayOfMonth);
@@ -142,24 +140,24 @@ public class EditMatchFragment extends Fragment {
         String scoreStr = editTextScore.getText().toString().trim();
         String notes = editTextNotes.getText().toString().trim();
 
-        // Verificar se os campos obrigatórios não estão vazios
+        // Check if the required fields are not empty
         if (gameName.isEmpty() || matchDate.isEmpty()) {
             Toast.makeText(getContext(), "Nome do jogo e Data da partida são obrigatórios!", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Converter os campos não obrigatórios para números (caso vazio)
+        // Convert the non-required fields to numbers (if empty)
         int numberPlayers = numberPlayersStr.isEmpty() ? -1000 : Integer.parseInt(numberPlayersStr);
         int duration = durationStr.isEmpty() ? -1000 : Integer.parseInt(durationStr);
         int score = scoreStr.isEmpty() ? -1000 : Integer.parseInt(scoreStr);
 
-        // Atualizar a partida no banco de dados
+        // Update in the database
         boolean updated = dbHelper.updateMatch(matchId, gameName, matchDate, numberPlayers, duration, score, notes);
 
         if (updated) {
             Toast.makeText(getContext(), "Partida atualizada com sucesso!", Toast.LENGTH_SHORT).show();
             NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
-            navController.navigateUp(); // Volta para a lista de partidas
+            navController.navigateUp();
         } else {
             Toast.makeText(getContext(), "Falha ao atualizar a partida.", Toast.LENGTH_SHORT).show();
         }
@@ -167,7 +165,7 @@ public class EditMatchFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            requireActivity().onBackPressed(); // Volta para o fragment anterior
+            requireActivity().onBackPressed();
             return true;
         }
         return super.onOptionsItemSelected(item);

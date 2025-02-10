@@ -26,14 +26,11 @@ import java.util.List;
 
 
 public class BoardGameAdapterGames extends RecyclerView.Adapter<BoardGameAdapterGames.BoardGameViewHolder> {
-
     private Context context;
     private List<BoardGame> boardGameList;
     private DatabaseHelper dbHelper;
 
     private int userId;
-
-
 
     public BoardGameAdapterGames(Context context, List<BoardGame> boardGameList) {
         this.context = context;
@@ -53,7 +50,7 @@ public class BoardGameAdapterGames extends RecyclerView.Adapter<BoardGameAdapter
 
         // Set game name and year
         holder.nameTextView.setText(game.getDetails().getName());
-        holder.yearTextView.setText("Year: " + game.getDetails().getYearPublished());
+        holder.yearTextView.setText("Ano: " + game.getDetails().getYearPublished());
 
         // Load image with Glide
         if (game.getDetails().getImageUrl() != null) {
@@ -87,6 +84,7 @@ public class BoardGameAdapterGames extends RecyclerView.Adapter<BoardGameAdapter
         // Handle the favorite button action
         holder.favoriteButton.setOnClickListener(v -> {
             // Add to favorites logic here
+            //2nd version
         });
 
         // Handle the matches button action

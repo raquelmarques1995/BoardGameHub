@@ -59,7 +59,6 @@ public class SearchFragment extends Fragment {
         apiService = ApiClientHot.getApiClientForHotApi().create(ApiService.class);
 
         // Check if the search field is empty and call the appropriate fetch method
-        //TODO corrigir isto, a ideia está lá mas não está a funcionar.
         String query = searchEditText.getText().toString().trim();
         if (query.isEmpty()) {
             // If the search field is empty, fetch hot board games
@@ -89,13 +88,13 @@ public class SearchFragment extends Fragment {
                     boardGameList = response.body().getHotBoardGames();
                     fetchDetailsForAllGames();  // Fetch details for the hot games
                 } else {
-                    Toast.makeText(getContext(), "No hot board games found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Nenhum jogo de tabuleiro foi encontrado.", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<HotBoardGameResponse> call, Throwable t) {
-                Toast.makeText(getContext(), "API error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Erro na API: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -112,13 +111,13 @@ public class SearchFragment extends Fragment {
                     boardGameList = response.body().getBoardGames();
                     fetchDetailsForAllGames();  // Fetch details for all found games
                 } else {
-                    Toast.makeText(getContext(), "No results found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Nenhum resultado encontrado", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<BoardGameResponse> call, Throwable t) {
-                Toast.makeText(getContext(), "API error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Erro na API: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -145,7 +144,7 @@ public class SearchFragment extends Fragment {
 
                 @Override
                 public void onFailure(Call<BoardGameDetailsResponse> call, Throwable t) {
-                    Toast.makeText(getContext(), "Failed to load details", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Erro ao carregar os detalhes", Toast.LENGTH_SHORT).show();
                 }
             });
         }

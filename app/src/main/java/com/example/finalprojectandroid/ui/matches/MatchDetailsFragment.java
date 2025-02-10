@@ -27,7 +27,7 @@ public class MatchDetailsFragment extends Fragment {
     private Button btnEdit, btnDelete;
 
     public MatchDetailsFragment() {
-        // Construtor vazio necessário
+        //Empty constructor required
     }
 
     @Override
@@ -40,34 +40,33 @@ public class MatchDetailsFragment extends Fragment {
 
         dbHelper = new DatabaseHelper(getContext());
 
-        // Ativar a seta de voltar
+        // Activate the back arrow
         if (getActivity() instanceof AppCompatActivity) {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        setHasOptionsMenu(true); // Permite capturar eventos do menu
+        setHasOptionsMenu(true);
 
         if (getArguments() != null) {
             matchId = getArguments().getInt("match_id");
             loadMatchDetails(matchId);
         }
 
-        // Inicializar o botão de editar
+        // Initialize the Edit button
         btnEdit.setOnClickListener(v -> {
-            // Criar um Bundle para passar o ID da partida
+            // Create a Bundle to pass the match ID
             Bundle bundle = new Bundle();
-            bundle.putInt("match_id", matchId);  // Passa o ID da partida para o EditMatchFragment
+            bundle.putInt("match_id", matchId);  // Pass the match ID to the EditMatchFragment
             Log.e("MatchDelailsFragment","id" + matchId);
-            // Navegar para o EditMatchFragment
             NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
-            navController.navigate(R.id.EditMatchFragment, bundle);  // R.id.EditMatchFragment é o ID do seu fragmento de edição no navigation_graph.xml
+            navController.navigate(R.id.EditMatchFragment, bundle);
         });
 
         btnDelete.setOnClickListener(v -> {
             boolean isDeleted = dbHelper.deleteMatch(matchId);
             if (isDeleted) {
                 Toast.makeText(getContext(), "Partida eliminada!", Toast.LENGTH_SHORT).show();
-                requireActivity().onBackPressed(); // Volta para a lista de partidas
+                requireActivity().onBackPressed();
             } else {
                 Toast.makeText(getContext(), "Erro ao eliminar a partida!", Toast.LENGTH_SHORT).show();
             }
@@ -79,7 +78,7 @@ public class MatchDetailsFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            requireActivity().onBackPressed(); // Volta para o fragment anterior
+            requireActivity().onBackPressed();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -91,47 +90,46 @@ public class MatchDetailsFragment extends Fragment {
         if (match != null) {
             StringBuilder matchDetails = new StringBuilder();
 
-            // Nome do jogo
+            // Game name
             matchDetails.append("Nome: ").append(match.getGameName()).append("\n");
 
-            // Data
+            // Date
             if (match.getMatchDate() != null) {
                 String formattedDate = Utils.formatDate(match.getMatchDate());
                 matchDetails.append("Data: ").append(formattedDate).append("\n");
             } else {
-                Log.e("MatchDetailsFragment", "Erro: matchDate é null!");
                 matchDetails.append("Data: Não disponível\n");
             }
 
-            // Número de jogadores
+            // Number of players
             if (match.getNumberPlayers() == -1000) {
                 matchDetails.append("Nº de Jogadores: Sem informação\n");
             } else {
                 matchDetails.append("Nº de Jogadores: ").append(match.getNumberPlayers()).append("\n");
             }
 
-            // Duração
+            // Duration
             if (match.getDuration() == -1000) {
                 matchDetails.append("Duração: Sem informação\n");
             } else {
                 matchDetails.append("Duração: ").append(match.getDuration()).append(" min\n");
             }
 
-            // Pontuação
+            // Score
             if (match.getScore() == -1000) {
                 matchDetails.append("Pontuação: Sem pontuação\n");
             } else {
                 matchDetails.append("Pontuação: ").append(match.getScore()).append(" pontos\n");
             }
 
-            // Notas
+            // Notes
             matchDetails.append("Notas: ").append(match.getNotes()).append("\n");
 
-            // Definir o texto do TextView
+
             txtMatchDetails.setText(matchDetails.toString());
 
         } else {
-            Log.e("MatchDetailsFragment", "Erro: partida não encontrada para o ID: " + matchId);
+            Log.e("MatchDetailsFragment", "Error: Match not found for the ID: " + matchId);
             txtMatchDetails.setText("Erro ao carregar detalhes da partida.");
         }
     }
