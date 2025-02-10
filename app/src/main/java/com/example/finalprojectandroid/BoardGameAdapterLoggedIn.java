@@ -116,6 +116,8 @@ public class BoardGameAdapterLoggedIn extends RecyclerView.Adapter<BoardGameAdap
             String gameUrl = "https://boardgamegeek.com/boardgame/" + game.getId();
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(gameUrl));
             context.startActivity(browserIntent);
+
+            dialog.dismiss();
         });
 
         // "Go to Details" button action
@@ -130,6 +132,8 @@ public class BoardGameAdapterLoggedIn extends RecyclerView.Adapter<BoardGameAdap
             // Navigate to the BoardGameDetailsFragment with the bundle
             NavController navController = Navigation.findNavController((Activity) context, R.id.nav_host_fragment);
             navController.navigate(R.id.boardGameDetailsFragment, bundle);  // Correct ID of the BoardGameDetailsFragment
+
+            dialog.dismiss();
         });
 
 
