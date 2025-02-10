@@ -1,6 +1,7 @@
 package com.example.finalprojectandroid.ui.details;
 
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +49,7 @@ public class BoardGameDetailsFragment extends Fragment {
 
         // Set the description text
         if (boardGameDetails != null && boardGameDetails.getDescription() != null) {
-            descriptionTextView.setText(boardGameDetails.getDescription());
+            descriptionTextView.setText(Html.fromHtml(boardGameDetails.getDescription(),Html.FROM_HTML_MODE_LEGACY));
         } else {
             descriptionTextView.setText("No description available");
         }
