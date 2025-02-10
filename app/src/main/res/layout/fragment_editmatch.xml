@@ -58,7 +58,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Duração"
+        android:text="Duração (minutos)"
         android:textSize="16sp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="4dp"/>
@@ -103,6 +103,7 @@
         android:layout_height="wrap_content"
         android:hint="Notas"
         android:inputType="textMultiLine"
+        android:layout_marginBottom="12dp"
         />
 
     <Button

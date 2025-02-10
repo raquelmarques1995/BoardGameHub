@@ -9,42 +9,49 @@
         android:id="@+id/edtGameName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nome do Jogo" />
+        android:hint="Nome do Jogo"
+        android:layout_marginBottom="12dp"/>
 
     <EditText
         android:id="@+id/edtMatchDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Data da Partida"
-        android:inputType="date"/>
+        android:inputType="date"
+        android:layout_marginBottom="12dp"/>
 
     <EditText
         android:id="@+id/edtNumberPlayers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Número de Jogadores"
-        android:inputType="number"/>
+        android:inputType="number"
+        android:layout_marginBottom="12dp"/>
 
     <EditText
         android:id="@+id/edtDuration"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Duração"
-        android:inputType="number"/>
+        android:hint="Duração (minutos)"
+        android:inputType="number"
+        android:layout_marginBottom="12dp"/>
 
     <EditText
         android:id="@+id/edtScore"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Pontuação"
-        android:inputType="number"/>
+        android:inputType="number"
+        android:layout_marginBottom="12dp"/>
 
     <EditText
         android:id="@+id/edtNotes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Notas"
-        android:inputType="textMultiLine"/>
+        android:inputType="textMultiLine"
+        android:layout_marginBottom="12dp"
+        />
 
     <Button
         android:id="@+id/btnSaveMatch"

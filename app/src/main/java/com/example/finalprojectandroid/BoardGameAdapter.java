@@ -52,15 +52,6 @@ public class BoardGameAdapter extends RecyclerView.Adapter<BoardGameAdapter.Boar
             holder.imageView.setImageResource(R.drawable.ic_boardgame_background); // Set backup image
         }
 
-        // Um onclick listener para apenas abrir o site, é a alternativa à parte abaixo
-//        holder.itemView.setOnClickListener(v -> {
-//            // Construct the URL with the corresponding game ID
-//            String gameUrl = "https://boardgamegeek.com/boardgame/" + game.getId();
-//
-//            // Open the URL in a browser
-//            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(gameUrl));
-//            context.startActivity(browserIntent);
-//        });
         holder.itemView.setOnClickListener(v -> showGameDetailsDialog(context, game));
 
     }

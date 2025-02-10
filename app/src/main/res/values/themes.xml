@@ -25,6 +25,8 @@
         <item name="android:textColor">@color/textColorPrimary</item>
         <item name="android:textSize">16sp</item>
         <item name="android:padding">12dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:layout_marginBottom">12dp</item>
         <item name="android:focusable">true</item>  <!-- Garante que o foco seja possível -->
         <item name="android:focusableInTouchMode">true</item> <!-- Habilita o foco quando clicado -->
     </style>

@@ -139,6 +139,7 @@ public class SearchFragment extends Fragment {
                         // Update RecyclerView when all details are loaded
                         boardGameAdapterLoggedIn = new BoardGameAdapterLoggedIn(getContext(), boardGameList);
                         recyclerView.setAdapter(boardGameAdapterLoggedIn);
+
                     }
                 }
 
