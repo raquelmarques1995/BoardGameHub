@@ -1,4 +1,3 @@
-
 package com.example.finalprojectandroid.ui.games;
 
 import android.content.Context;
@@ -11,60 +10,68 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.finalprojectandroid.BoardGameDetails;
 import com.example.finalprojectandroid.DatabaseHelper;
 import com.example.finalprojectandroid.R;
 import com.example.finalprojectandroid.Utils;
-import com.example.finalprojectandroid.BoardGameDetails;
+import com.example.finalprojectandroid.BoardGame;
 import com.example.finalprojectandroid.ApiService;
-import com.example.finalprojectandroid.ApiClientBoardGame;  // Make sure you import your ApiClient to get an instance of ApiService
+import com.example.finalprojectandroid.ApiClientBoardGame;
 import com.example.finalprojectandroid.BoardGameDetailsResponse;
-import com.example.finalprojectandroid.BoardGameDetails;
-import com.example.finalprojectandroid.BoardGameName;
 
-
-
+import java.util.ArrayList;
 import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class GamesFragment extends Fragment {
+
     private DatabaseHelper dbHelper;
     private int userId;
-    private ApiService apiService;  // Declare the ApiService instance
+    private ApiService apiService;
+    private RecyclerView recyclerView;
+    private BoardGameAdapterGames boardGameAdapterGames;
+    private List<BoardGame> boardGameList;
+    private List<Integer> gameIds;  // Declare this as a class-level variable
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_games, container, false);
 
-        // Get user ID (assuming you're storing the user ID in SharedPreferences or other method)
+        // Initialize views
+        recyclerView = view.findViewById(R.id.recyclerViewMyGames);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        // Initialize database helper and ApiService
         Context context = getContext();
         if (context != null) {
             dbHelper = new DatabaseHelper(context);
-            userId = Integer.parseInt(Utils.readUserID(context)); // Assuming user ID is stored in SharedPreferences
+            userId = Integer.parseInt(Utils.readUserID(context));
 
-            // Initialize ApiService with Retrofit instance
-            apiService = ApiClientBoardGame.getApiClientForXmlApi().create(ApiService.class); // Update with your ApiClient instance
+            apiService = ApiClientBoardGame.getApiClientForXmlApi().create(ApiService.class);
 
-            // Fetch games for the user and log them
+            // Fetch game details and populate the RecyclerView
             fetchAndLogUserGames();
         }
 
         return view;
     }
 
-    // Method to fetch games by user ID and log the result
     private void fetchAndLogUserGames() {
-        // Assuming getGamesByUserId returns a list of game IDs (List<Integer>)
-        List<Integer> gameIds = dbHelper.getGamesByUserId(userId);
+        // Fetch the list of game IDs from the database
+        gameIds = dbHelper.getGamesByUserId(userId);  // Now this is a class-level variable
 
-        // Log the result
         if (gameIds != null && !gameIds.isEmpty()) {
-            Log.d("GamesFragment", "Games for user " + userId + ": " + gameIds.toString());
+            boardGameList = new ArrayList<>();
+
+            // Loop through each gameId and fetch its details
             for (Integer gameId : gameIds) {
-                // Fetch the BoardGameDetails by gameId here (using Retrofit, for example)
                 fetchBoardGameDetails(gameId);
             }
         } else {
@@ -72,26 +79,28 @@ public class GamesFragment extends Fragment {
         }
     }
 
-    // Fetch BoardGameDetails by gameId (just an example, assuming you have the Retrofit setup)
     private void fetchBoardGameDetails(int gameId) {
-        // Ensure you're using the right ApiService for game details
-        ApiService apiServiceForDetails = ApiClientBoardGame.getApiClientForXmlApi().create(ApiService.class);
-
-        apiServiceForDetails.getBoardGameDetails(gameId).enqueue(new Callback<BoardGameDetailsResponse>() {
+        // Fetch details for each game using its ID
+        apiService.getBoardGameDetails(gameId).enqueue(new Callback<BoardGameDetailsResponse>() {
             @Override
             public void onResponse(Call<BoardGameDetailsResponse> call, Response<BoardGameDetailsResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    // Now you get the correct response type (BoardGameDetailsResponse)
+                    // Get the details of the game from the API response
                     BoardGameDetailsResponse gameDetailsResponse = response.body();
-
-                    // Handle the details from the response
                     if (gameDetailsResponse != null) {
-                        BoardGameDetails gameDetails = gameDetailsResponse.getBoardGames().get(0); // Adjust according to your structure
-                        //String primaryName = gameDetails.getName();  // Use the getName() method from BoardGameDetails
+                        BoardGameDetails gameDetails = gameDetailsResponse.getBoardGames().get(0);
+                        BoardGame game = new BoardGame();
+                        game.setId(gameId);
+                        game.setDetails(gameDetails);
                         String primaryName = gameDetails.getName();
                         Log.d("GamesFragment", "Primary Name for game ID " + gameId + ": " + primaryName);
-                    } else {
-                        Log.d("GamesFragment", "No details found for game ID " + gameId);
+                        boardGameList.add(game);
+
+                        // Once all games are fetched, update the adapter and RecyclerView
+                        if (boardGameList.size() == gameIds.size()) {  // Now `gameIds` is accessible here
+                            boardGameAdapterGames = new BoardGameAdapterGames(getContext(), boardGameList);
+                            recyclerView.setAdapter(boardGameAdapterGames);
+                        }
                     }
                 }
             }
@@ -103,3 +112,4 @@ public class GamesFragment extends Fragment {
         });
     }
 }
+

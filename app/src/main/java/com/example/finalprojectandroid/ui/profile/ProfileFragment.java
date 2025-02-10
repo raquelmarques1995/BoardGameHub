@@ -1,6 +1,7 @@
 package com.example.finalprojectandroid.ui.profile;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -16,16 +17,20 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.example.finalprojectandroid.MainActivity;
 import com.example.finalprojectandroid.R;
 import com.example.finalprojectandroid.DatabaseHelper;
 import com.example.finalprojectandroid.Utils;
 import com.example.finalprojectandroid.User;
 
+import java.io.File;
+
 public class ProfileFragment extends Fragment {
 
     private TextView tvUsername, tvEmail, tvName, tvBirthdate, tvCity, tvCountry;
     private EditText etName, etBirthdate, etCity, etCountry;
-    private Button btnEdit, btnSave;
+    private Button btnEdit, btnSave,btnLogout;
     private DatabaseHelper databaseHelper;
     private int userId;
 
@@ -47,6 +52,7 @@ public class ProfileFragment extends Fragment {
 
         btnEdit = root.findViewById(R.id.btnEdit);
         btnSave = root.findViewById(R.id.btnSave);
+        btnLogout = root.findViewById(R.id.btnLogout);
 
         databaseHelper = new DatabaseHelper(getContext());
         userId = Integer.parseInt(Utils.readUserID(getContext())); // Obter o ID do user logado
@@ -60,6 +66,11 @@ public class ProfileFragment extends Fragment {
         btnSave.setOnClickListener(v -> {
             saveUserData();
             toggleEditMode(false);
+        });
+
+        // Botão "Logout"
+        btnLogout.setOnClickListener(v -> {
+            logoutUser();
         });
 
         return root;
@@ -109,6 +120,20 @@ public class ProfileFragment extends Fragment {
         databaseHelper.updateUser(userId, newName, newBirthdate, newCity, newCountry);
         loadUserData(); // Recarregar os dados atualizados
         toggleEditMode(false);
+    }
+
+    private void logoutUser() {
+        // Apagar o arquivo de sessão
+        File file = new File(getContext().getFilesDir(), "userInSession.txt");
+        if (file.exists()) {
+            file.delete();
+            Toast.makeText(getContext(), "Logout bem-sucedido!", Toast.LENGTH_SHORT).show();
+
+            // Redirecionar para a tela de Login
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            startActivity(intent);
+            getActivity().finish(); // Fechar a atividade atual
+        }
     }
 
 

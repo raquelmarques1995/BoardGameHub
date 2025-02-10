@@ -20,12 +20,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private DatabaseHelper db;
-    private EditText editTextNome, editTextEmail;
-    private ListView listViewUtilizadores;
-    private ArrayAdapter<String> adapter;
-    private ArrayList<String> utilizadores;
-    private int selectedId;
+    private final String FILE_NAME = "userInSession.txt";
 
 
         @Override
@@ -33,30 +28,25 @@ public class MainActivity extends AppCompatActivity {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
 
-
-            //Verificar se o userId já está registado e se sim abre automaticamente a aplicação
-            // Check if a user ID exists in the internal storage
-//        String userId = Utils.readUserID(this);
-//
-//        // If a valid user ID is found (not -1), redirect to MainFrameActivity
-//        if (userId != "-1") {
-//            // Redirect to MainFrameActivity
-//            Intent intent = new Intent(MainActivity.this, MainFrame.class);
-//            intent.putExtra("user_id", userId);  // Pass the user ID to MainFrameActivity
-//            startActivity(intent);
-//            finish(); // Close MainActivity to prevent going back to it
-//        } else {
-//            // No user ID found, let the user log in (normal behavior)
-//            Toast.makeText(this, "No user ID found. Please log in.", Toast.LENGTH_SHORT).show();
-//        }
-            //abertura automática tendo em conta user até aqui
+            // Verificar se já existe um login
+            if (isUserLoggedIn()) {
+                String userId = Utils.readUserID(this);
+                if (userId != null) {
+                    // Se houver um login feito, redireciona para a MainFrameActivity
+                    Intent intent = new Intent(MainActivity.this, MainFrameActivity.class);
+                    intent.putExtra("user_id", userId);  // Passa o userId para a MainFrameActivity
+                    startActivity(intent);
+                    finish();  // Fecha a MainActivity para não permitir voltar a ela
+                    return;  // Sai da execução para evitar a exibição dos botões
+                }
+            }
 
             // Botão para abrir Login
             Button linearButton = findViewById(R.id.btnLogin);
             linearButton.setOnClickListener(v -> {
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
-                // Pode-se descomentar depois finish();
+                finish();
             });
 
             // Botão para abrir Criar Conta
@@ -73,6 +63,13 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
         }
+
+    // Função para verificar se o utilizador já está logado
+    private boolean isUserLoggedIn() {
+        File file = new File(getFilesDir(), FILE_NAME);
+        return file.exists();
+    }
+
     public void dropDatabase(View view) {
         File dbFile = getApplicationContext().getDatabasePath("appDB.db");
         if (dbFile.exists()) {

@@ -68,7 +68,6 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
                 android:minHeight="40dp"
                 android:hint="Indique o seu nome"
                 android:visibility="gone"/>
@@ -101,7 +100,6 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
                 android:minHeight="40dp"
                 android:hint="AAAA/MM/DD"
                 android:inputType="date"
@@ -135,7 +133,6 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
                 android:minHeight="40dp"
                 android:hint="Indique a sua cidade"
                 android:visibility="gone"/>
@@ -168,7 +165,6 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
                 android:minHeight="40dp"
                 android:hint="Indique o seu país"
                 android:visibility="gone"/>
@@ -195,6 +191,14 @@
             android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-    </LinearLayout>
 
-</LinearLayout>
+        <!-- Botão Logout -->
+        <Button
+            android:id="@+id/btnLogout"
+            android:text="Logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+    </LinearLayout>

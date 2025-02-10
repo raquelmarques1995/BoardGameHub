@@ -1,24 +1,21 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <!-- Tema Principal -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar" >
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
         <item name="colorAccent">@color/accentColor</item>
-        <item name="android:windowBackground">@color/backgroundColor</item>
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
         <item name="android:textColorSecondary">@color/textColorSecondary</item>
+        <item name="android:buttonStyle">@style/Widget.App.Button</item>
+        <item name="editTextStyle">@style/EditTextStyle</item>
     </style>
 
     <!-- Estilo para Botões -->
-    <style name="ButtonStyle">
+    <style name="Widget.App.Button" parent="Widget.MaterialComponents.Button">
         <item name="android:background">@drawable/rounded_button</item>
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:minHeight">48dp</item>
-        <item name="android:paddingStart">16dp</item>
-        <item name="android:paddingEnd">16dp</item>
-        <item name="android:paddingTop">10dp</item>
-        <item name="android:paddingBottom">10dp</item>
+        <item name="android:textColor">@color/textColorSecondary</item> <!-- Define a cor do texto -->
+        <item name="android:padding">10dp</item>
         <item name="android:textSize">16sp</item>
     </style>
 
@@ -28,5 +25,7 @@
         <item name="android:textColor">@color/textColorPrimary</item>
         <item name="android:textSize">16sp</item>
         <item name="android:padding">12dp</item>
+        <item name="android:focusable">true</item>  <!-- Garante que o foco seja possível -->
+        <item name="android:focusableInTouchMode">true</item> <!-- Habilita o foco quando clicado -->
     </style>
 </resources>

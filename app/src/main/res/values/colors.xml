@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primaryColor">#3E2723</color> <!-- Marrom Oliva -->
-    <color name="primaryDarkColor">#3E2723</color> <!-- Marrom Escuro -->
-    <color name="accentColor">#D7A15A</color> <!-- Bege Claro -->
-    <color name="backgroundColor">#F5F5F5</color> <!-- Cinza Claro -->
-    <color name="textColorPrimary">#3E2723</color> <!-- Marrom Escuro -->
-    <color name="textColorSecondary">#8D6E63</color> <!-- Marrom Médio -->
-    <color name="buttonColor">#752A1A</color> <!-- Laranja Queimado -->
-    <color name="borderColor">#A1887F</color> <!-- Bege Escuro -->
+    <color name="primaryColor">#413438</color> <!-- castanho escuro (mais claro) -->
+    <color name="primaryDarkColor">#413438</color> <!-- castanho escuro -->
+    <color name="accentColor">#2b1f23</color> <!-- Branco -->
+    <color name="backgroundColor">#646564</color> <!-- Cinzento -->
+    <color name="textColorPrimary">#000000</color> <!-- Bege Claro -->
+    <color name="textColorSecondary">#d6cec7</color> <!-- Preto -->
+    <color name="buttonColor">#2b1f23</color> <!-- Laranja Queimado -->
+    <color name="borderColor">#2b1f23</color> <!-- Bege Escuro -->
 </resources>
