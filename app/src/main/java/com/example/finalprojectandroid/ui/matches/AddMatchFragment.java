@@ -41,7 +41,6 @@ public class AddMatchFragment extends Fragment {
         }
 
 
-
         setHasOptionsMenu(true); // Permite capturar eventos do menu
 
         // Inicializar componentes

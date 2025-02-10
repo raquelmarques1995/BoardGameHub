@@ -66,6 +66,24 @@ public class BoardGameAdapterGames extends RecyclerView.Adapter<BoardGameAdapter
             holder.imageView.setImageResource(R.drawable.ic_boardgame_background);
         }
 
+        // Handle item click to navigate to BoardGameDetailsFragment
+        holder.itemView.setOnClickListener(v -> {
+            try {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("board_game_details", game.getDetails()); // Put the BoardGameDetails object from game.getDetails()
+                bundle.putInt("game_id", game.getId());
+                bundle.putString("game_name", game.getName()); // Pass game name
+                bundle.putString("game_year", game.getYearPublished()); // Pass game year
+
+                // Navigate to BoardGameDetailsFragment
+                NavController navController = Navigation.findNavController((Activity) v.getContext(), R.id.nav_host_fragment);
+                navController.navigate(R.id.boardGameDetailsFragment, bundle);
+
+            } catch (Exception e) {
+                Log.e("BoardGameAdapter", "Error navigating to BoardGameDetailsFragment: " + e.getMessage());
+            }
+        });
+
         // Handle the favorite button action
         holder.favoriteButton.setOnClickListener(v -> {
             // Add to favorites logic here
