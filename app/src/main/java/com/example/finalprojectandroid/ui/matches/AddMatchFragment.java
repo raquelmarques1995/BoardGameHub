@@ -40,6 +40,8 @@ public class AddMatchFragment extends Fragment {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+
+
         setHasOptionsMenu(true); // Permite capturar eventos do menu
 
         // Inicializar componentes
@@ -50,6 +52,14 @@ public class AddMatchFragment extends Fragment {
         edtScore = view.findViewById(R.id.edtScore);
         edtNotes = view.findViewById(R.id.edtNotes);
         Button btnSaveMatch = view.findViewById(R.id.btnSaveMatch);
+
+        //Ir buscar o gameName aos argumentos caso tenha sido enviado através do mygames ou search
+        if (getArguments() != null && getArguments().containsKey("gameName")) {
+            String gameName = getArguments().getString("gameName", ""); // Default to empty string if null
+            edtGameName.setText(gameName);
+        } else {
+            edtGameName.setText(""); // Leave it empty if no gameName was passed
+        }
 
         dbHelper = new DatabaseHelper(requireContext());
         userId = Utils.readUserID(requireContext());

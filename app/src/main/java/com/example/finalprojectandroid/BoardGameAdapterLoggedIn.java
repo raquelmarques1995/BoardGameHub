@@ -88,7 +88,8 @@ public class BoardGameAdapterLoggedIn extends RecyclerView.Adapter<BoardGameAdap
         TextView gameDetailsTextView = dialogView.findViewById(R.id.gameDetailsTextView);
         Button goToWebsiteButton = dialogView.findViewById(R.id.goToWebsiteButton);
         Button goToDetailsButton = dialogView.findViewById(R.id.goToDetailsButton);
-        Button addToMyGames = dialogView.findViewById(R.id.addToMyGamesButton);
+        Button addToMyGamesButton = dialogView.findViewById(R.id.addToMyGamesButton);
+        Button addToMyMatchesButton = dialogView.findViewById(R.id.addToMyMatchesButton);
         Button closeButton = dialogView.findViewById(R.id.closeButton);
 
 
@@ -129,8 +130,28 @@ public class BoardGameAdapterLoggedIn extends RecyclerView.Adapter<BoardGameAdap
             dialog.dismiss();
         });
 
+        //Botão Ir para minhas partidas
+        addToMyMatchesButton.setOnClickListener(v -> {
+            try {
+                // Get the game name
+                String gameNameMatch = game.getDetails().getName();
+                Log.d("GameNameMatch",gameNameMatch);
+                // Prepare bundle to pass the game name
+                Bundle bundle = new Bundle();
+                bundle.putString("gameName", gameNameMatch);
+
+                // Navigate to AddMatchFragment with arguments
+                NavController navController = Navigation.findNavController((Activity) v.getContext(), R.id.nav_host_fragment);
+                navController.navigate(R.id.addMatchFragment, bundle);
+            } catch (Exception e) {
+                Log.e("MatchesButtonClick", "Error navigating to AddMatchFragment: " + e.getMessage());
+            }
+
+            dialog.dismiss();
+        });
+
         // "Go to Details" button action
-        goToDetailsButton.setOnClickListener(v -> {
+goToDetailsButton.setOnClickListener(v -> {
             // Create a Bundle to hold the board game details and additional data
             Bundle bundle = new Bundle();
             bundle.putSerializable("board_game_details", game.getDetails()); // Put the BoardGameDetails object from game.getDetails()
@@ -146,7 +167,7 @@ public class BoardGameAdapterLoggedIn extends RecyclerView.Adapter<BoardGameAdap
         });
 
         // Botão para adicionar aos meus jogos
-        addToMyGames.setOnClickListener(v -> {
+        addToMyGamesButton.setOnClickListener(v -> {
             dbHelper = new DatabaseHelper(context);
             userId = Integer.parseInt(Utils.readUserID(context));
 

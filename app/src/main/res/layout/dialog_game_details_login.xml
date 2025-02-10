@@ -17,14 +17,21 @@
         android:id="@+id/goToWebsiteButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Go to Website Login"
+        android:text="Ir para página web do jogo"
         android:layout_marginTop="8dp"/>
 
     <Button
         android:id="@+id/goToDetailsButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Go to Details"
+        android:text="Ir para página de detalhes"
+        android:layout_marginTop="8dp"/>
+
+    <Button
+        android:id="@+id/addToMyMatchesButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Adicionar partida"
         android:layout_marginTop="8dp"/>
 
     <Button
@@ -40,7 +47,7 @@
         android:id="@+id/closeButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Close"
+        android:text="Fechar"
         android:layout_marginTop="8dp"
         />
 </LinearLayout>
