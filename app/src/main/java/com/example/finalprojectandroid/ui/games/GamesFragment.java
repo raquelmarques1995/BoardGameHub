@@ -20,6 +20,8 @@ import com.example.finalprojectandroid.ApiService;
 import com.example.finalprojectandroid.ApiClientBoardGame;  // Make sure you import your ApiClient to get an instance of ApiService
 import com.example.finalprojectandroid.BoardGameDetailsResponse;
 import com.example.finalprojectandroid.BoardGameDetails;
+import com.example.finalprojectandroid.BoardGameName;
+
 
 
 import java.util.List;
@@ -85,7 +87,8 @@ public class GamesFragment extends Fragment {
                     // Handle the details from the response
                     if (gameDetailsResponse != null) {
                         BoardGameDetails gameDetails = gameDetailsResponse.getBoardGames().get(0); // Adjust according to your structure
-                        String primaryName = gameDetails.getName();  // Use the getName() method from BoardGameDetails
+                        //String primaryName = gameDetails.getName();  // Use the getName() method from BoardGameDetails
+                        String primaryName = gameDetails.getName();
                         Log.d("GamesFragment", "Primary Name for game ID " + gameId + ": " + primaryName);
                     } else {
                         Log.d("GamesFragment", "No details found for game ID " + gameId);
@@ -99,5 +102,4 @@ public class GamesFragment extends Fragment {
             }
         });
     }
-
 }

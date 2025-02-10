@@ -7,6 +7,8 @@ import org.simpleframework.xml.Root;
 import java.io.Serializable;
 import java.util.List;
 
+import com.example.finalprojectandroid.BoardGameName;
+
 @Root(name = "boardgame", strict = false)
 public class BoardGameDetails implements Serializable {
 
@@ -44,15 +46,27 @@ public class BoardGameDetails implements Serializable {
     }
 
     @ElementList(name = "name", entry = "name", inline = true, required = false)
-    private List<String> names;
+    private List<BoardGameName> names;
 
-    public List<String> getNames() {
-        return names;
-    }
+
+//    public List<String> getNames() {
+//        return names;
+//    }
 
     public String getName() {
-        return (names != null && !names.isEmpty()) ? names.get(0) : "N/A";
+        if (names != null && !names.isEmpty()) {
+            // First, try to find the primary name
+            for (BoardGameName nameObj : names) {
+                if (nameObj.isPrimary()) {
+                    return nameObj.getName();
+                }
+            }
+            // If no primary name is found, return the first available name
+            return names.get(0).getName();
+        }
+        return "N/A"; // Default if the list is empty or null
     }
+
 
     // Getters
     public int getYearPublished() { return yearPublished; }
