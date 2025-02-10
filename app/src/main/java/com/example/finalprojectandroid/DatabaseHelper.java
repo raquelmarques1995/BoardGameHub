@@ -294,8 +294,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return success;
     }
 
-    public boolean insertGameToMyGames(int userId, int gameId) {
-        SQLiteDatabase db = this.getWritableDatabase();
+    public int insertGameToMyGames(int userId, int gameId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Check if the game is already in the user's list
+        Cursor cursor = db.rawQuery("SELECT * FROM mygames WHERE user_id = ? AND game_id = ?",
+                new String[]{String.valueOf(userId), String.valueOf(gameId)});
+
+        if (cursor.getCount() > 0) {
+            cursor.close();
+            db.close();
+            return -1;  // Game already exists in MyGames
+        }
+
+        cursor.close();
+        db.close();
+
+        // If game is not in the list, insert it
+        db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("user_id", userId);
         values.put("game_id", gameId);
@@ -303,8 +319,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         long result = db.insert("mygames", null, values);
         db.close();
 
-        return result != -1; // returns true if insertion was successful
+        return result != -1 ? 1 : 0;  // Return 1 if success, 0 if failure
     }
+
 
     public List<Integer> getGamesByUserId(int userId) {
         List<Integer> gameIds = new ArrayList<>();

@@ -171,21 +171,25 @@ goToDetailsButton.setOnClickListener(v -> {
             dbHelper = new DatabaseHelper(context);
             userId = Integer.parseInt(Utils.readUserID(context));
 
-            // Insert a game for user with id 1 and game id 10
-            boolean isInserted = dbHelper.insertGameToMyGames(userId, game.getId());
-            Log.d("Databaseinput", "Utilizador: " + userId + " Idjogo: " + String.valueOf(game.getId()));
-            if (isInserted) {
-                Toast.makeText(context, game.getName() + " added to My Games list", Toast.LENGTH_SHORT).show();
+            // Try to insert the game
+            int insertResult = dbHelper.insertGameToMyGames(userId, game.getId());
 
+            Log.d("Databaseinput", "User: " + userId + " GameId: " + game.getId());
+
+            if (insertResult == 1) {
+                Toast.makeText(context, game.getName() + " added to My Games list", Toast.LENGTH_SHORT).show();
                 Log.d("Database", "Game inserted successfully.");
+            } else if (insertResult == -1) {
+                Toast.makeText(context, "Game is already in My Games list", Toast.LENGTH_SHORT).show();
+                Log.d("Database", "Game already exists in My Games.");
             } else {
                 Toast.makeText(context, "Failed to add game", Toast.LENGTH_SHORT).show();
-
                 Log.d("Database", "Failed to insert game.");
             }
 
             dialog.dismiss();
         });
+
 
 
 
