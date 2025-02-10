@@ -26,20 +26,3 @@ public interface ApiService {
     Call<HotBoardGameResponse> getHotBoardGames();
 }
 
-// Wrapper class for board game search results (KEEP THIS AS IS)
-@Root(name = "items", strict = false)
-class BoardGameResponse {
-    @ElementList(inline = true, required = false)
-    private List<BoardGame> boardGames;
-
-    public List<BoardGame> getBoardGames() { return boardGames; }
-}
-
-// Wrapper class for hot board game results
-@Root(name = "items", strict = false)
-class HotBoardGameResponse {
-    @ElementList(inline = true, required = false)
-    private List<BoardGame> hotBoardGames;
-
-    public List<BoardGame> getHotBoardGames() { return hotBoardGames; }
-}

@@ -1,14 +1,31 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center">
-    <TextView
+    android:padding="16dp">
+
+    <!-- Search Input -->
+    <EditText
+        android:id="@+id/searchEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter board game name"
+        android:padding="8dp" />
+
+    <!-- Search Button -->
+    <Button
+        android:id="@+id/searchButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Pesquisar Jogos"
-        android:textSize="20sp"
-        android:textStyle="bold"/>
+        android:text="Search"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp" />
+
+    <!-- RecyclerView for board games -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="16dp"
+        android:clipToPadding="false"/>
 </LinearLayout>
