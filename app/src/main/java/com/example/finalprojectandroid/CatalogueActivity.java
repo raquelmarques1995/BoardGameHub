@@ -44,7 +44,6 @@ public class CatalogueActivity extends AppCompatActivity {
         try {
             fetchHotBoardGames(); // Fetch hot board games on startup
             Toast.makeText(CatalogueActivity.this, "Lista de jogos populares carregada", Toast.LENGTH_SHORT).show();
-
         }catch (Exception e) {
             e.printStackTrace(); // Log do erro para facilitar debugging
         }
@@ -79,6 +78,7 @@ public class CatalogueActivity extends AppCompatActivity {
 
     // Fetch board games based on a search query
     private void fetchBoardGames(String query) {
+
         // Initialize the ApiService for searching board games
         apiService = ApiClient.getApiClientForXmlApi2().create(ApiService.class);
 
