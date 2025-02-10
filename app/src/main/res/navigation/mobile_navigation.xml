@@ -58,4 +58,10 @@
         android:label="Edit Match"
         tools:layout="@layout/fragment_editmatch" />
 
+    <fragment
+        android:id="@+id/boardGameDetailsFragment"
+        android:name="com.example.finalprojectandroid.ui.details.BoardGameDetailsFragment"
+        android:label="Board Game Details"
+        tools:layout="@layout/fragment_boardgame_details" />
+
 </navigation>

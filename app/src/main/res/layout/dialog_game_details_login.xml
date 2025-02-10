@@ -19,6 +19,15 @@
         android:layout_height="wrap_content"
         android:text="Go to Website Login"
         android:background="@android:color/holo_blue_light"
+        android:textColor="@android:color/white"
+        android:paddingBottom="16dp"/>
+
+    <Button
+        android:id="@+id/goToDetailsButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Go to Details"
+        android:background="@android:color/holo_blue_light"
         android:textColor="@android:color/white" />
 
 

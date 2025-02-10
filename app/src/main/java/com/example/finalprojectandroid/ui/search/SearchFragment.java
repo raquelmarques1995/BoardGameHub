@@ -58,14 +58,22 @@ public class SearchFragment extends Fragment {
         // Initialize the ApiService with the correct Retrofit instance for Hot Board Games
         apiService = ApiClientHot.getApiClientForHotApi().create(ApiService.class);
 
-        // Default fetch of hot board games on startup
-        fetchHotBoardGames();
+        // Check if the search field is empty and call the appropriate fetch method
+        //TODO corrigir isto, a ideia está lá mas não está a funcionar.
+        String query = searchEditText.getText().toString().trim();
+        if (query.isEmpty()) {
+            // If the search field is empty, fetch hot board games
+            fetchHotBoardGames();
+        } else {
+            // If there's a search term, fetch board games based on the query
+            fetchBoardGames(query);
+        }
 
         // Button click to search for board games based on user input
         searchButton.setOnClickListener(v -> {
-            String query = searchEditText.getText().toString().trim();
-            if (!query.isEmpty()) {
-                fetchBoardGames(query);
+            String queryin = searchEditText.getText().toString().trim();
+            if (!queryin.isEmpty()) {
+                fetchBoardGames(queryin);
             }
         });
 

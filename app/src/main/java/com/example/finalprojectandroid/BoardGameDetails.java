@@ -4,10 +4,11 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Root(name = "boardgame", strict = false)
-public class BoardGameDetails {
+public class BoardGameDetails implements Serializable {
 
     @Element(name = "yearpublished", required = false)
     private int yearPublished;

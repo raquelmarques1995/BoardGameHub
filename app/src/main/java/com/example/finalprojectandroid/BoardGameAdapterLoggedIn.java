@@ -1,8 +1,10 @@
 package com.example.finalprojectandroid;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +14,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+
+import com.example.finalprojectandroid.ui.details.BoardGameDetailsFragment;
 
 import java.util.List;
 
@@ -73,6 +79,7 @@ public class BoardGameAdapterLoggedIn extends RecyclerView.Adapter<BoardGameAdap
         // Initialize UI elements in the dialog
         TextView gameDetailsTextView = dialogView.findViewById(R.id.gameDetailsTextView);
         Button goToWebsiteButton = dialogView.findViewById(R.id.goToWebsiteButton);
+        Button goToDetailsButton = dialogView.findViewById(R.id.goToDetailsButton);
         Button closeButton = dialogView.findViewById(R.id.closeButton);
 
 
@@ -110,6 +117,22 @@ public class BoardGameAdapterLoggedIn extends RecyclerView.Adapter<BoardGameAdap
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(gameUrl));
             context.startActivity(browserIntent);
         });
+
+        // "Go to Details" button action
+        goToDetailsButton.setOnClickListener(v -> {
+            // Create a Bundle to hold the board game details and additional data
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("board_game_details", game.getDetails()); // Put the BoardGameDetails object from game.getDetails()
+            bundle.putInt("game_id", game.getId());
+            bundle.putString("game_name", game.getName()); // Pass game name
+            bundle.putString("game_year", game.getYearPublished()); // Pass game year
+
+            // Navigate to the BoardGameDetailsFragment with the bundle
+            NavController navController = Navigation.findNavController((Activity) context, R.id.nav_host_fragment);
+            navController.navigate(R.id.boardGameDetailsFragment, bundle);  // Correct ID of the BoardGameDetailsFragment
+        });
+
+
 
         // "Close" button action
         closeButton.setOnClickListener(v -> dialog.dismiss());
