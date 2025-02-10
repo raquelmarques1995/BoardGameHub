@@ -107,6 +107,7 @@ public class ProfileFragment extends Fragment {
         etCountry.setVisibility(isEditing ? View.VISIBLE : View.GONE);
 
         btnEdit.setVisibility(isEditing ? View.GONE : View.VISIBLE);
+        btnLogout.setVisibility(isEditing ? View.GONE : View.VISIBLE);
         btnSave.setVisibility(isEditing ? View.VISIBLE : View.GONE);
     }
 
