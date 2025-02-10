@@ -17,7 +17,7 @@
         android:id="@+id/goToWebsiteButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Go to Website"
+        android:text="Go to Website Login"
         android:background="@android:color/holo_blue_light"
         android:textColor="@android:color/white" />
 

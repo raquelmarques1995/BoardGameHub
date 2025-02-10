@@ -17,7 +17,7 @@ import com.example.finalprojectandroid.ApiClientBoardGame;
 import com.example.finalprojectandroid.ApiClientHot;
 import com.example.finalprojectandroid.ApiService;
 import com.example.finalprojectandroid.BoardGame;
-import com.example.finalprojectandroid.BoardGameAdapter;
+import com.example.finalprojectandroid.BoardGameAdapterLoggedIn;
 import com.example.finalprojectandroid.R;
 import com.example.finalprojectandroid.HotBoardGameResponse;
 import com.example.finalprojectandroid.BoardGameResponse;
@@ -34,7 +34,7 @@ import retrofit2.Response;
 public class SearchFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    private BoardGameAdapter boardGameAdapter;
+    private BoardGameAdapterLoggedIn boardGameAdapterLoggedIn;
     private EditText searchEditText;
     private Button searchButton;
     private ApiService apiService;  // To make API calls
@@ -129,8 +129,8 @@ public class SearchFragment extends Fragment {
                         game.setDetails(details); // Set the details to the BoardGame object
 
                         // Update RecyclerView when all details are loaded
-                        boardGameAdapter = new BoardGameAdapter(getContext(), boardGameList);
-                        recyclerView.setAdapter(boardGameAdapter);
+                        boardGameAdapterLoggedIn = new BoardGameAdapterLoggedIn(getContext(), boardGameList);
+                        recyclerView.setAdapter(boardGameAdapterLoggedIn);
                     }
                 }
 

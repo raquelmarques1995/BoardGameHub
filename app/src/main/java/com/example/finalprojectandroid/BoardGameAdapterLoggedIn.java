@@ -18,12 +18,12 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
-public class BoardGameAdapter extends RecyclerView.Adapter<BoardGameAdapter.BoardGameViewHolder> {
+public class BoardGameAdapterLoggedIn extends RecyclerView.Adapter<BoardGameAdapterLoggedIn.BoardGameViewHolder> {
 
     private Context context;
     private List<BoardGame> boardGameList;
 
-    public BoardGameAdapter(Context context, List<BoardGame> boardGameList) {
+    public BoardGameAdapterLoggedIn(Context context, List<BoardGame> boardGameList) {
         this.context = context;
         this.boardGameList = boardGameList;
     }
@@ -67,7 +67,7 @@ public class BoardGameAdapter extends RecyclerView.Adapter<BoardGameAdapter.Boar
 
     private void showGameDetailsDialog(Context context, BoardGame game) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_game_details, null);
+        View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_game_details_login, null);
         builder.setView(dialogView);
 
         // Initialize UI elements in the dialog
@@ -91,13 +91,13 @@ public class BoardGameAdapter extends RecyclerView.Adapter<BoardGameAdapter.Boar
         // Build the main message
         String message =
                 game.getName() +
-                "\nAno: " + (!String.valueOf(game.getYearPublished()).isEmpty() ? game.getYearPublished() : "Informação não disponível") +
-                "\nMínimo jogadores: " + (!String.valueOf(game.getDetails().getMinPlayers()).isEmpty() ? game.getDetails().getMinPlayers() : "Informação não disponível") +
-                "\nMáximo jogadores: " + (!String.valueOf(game.getDetails().getMaxPlayers()).isEmpty() ? game.getDetails().getMaxPlayers() : "Informação não disponível") +
-                "\nTempo médio de jogo (mins): " + (!String.valueOf(game.getDetails().getPlayingTime()).isEmpty() ? game.getDetails().getPlayingTime() : "Informação não disponível") +
-                "\nIdade mínima: " + (!String.valueOf(game.getDetails().getAge()).isEmpty() ? game.getDetails().getAge() : "Informação não disponível") +
+                        "\nAno: " + (!String.valueOf(game.getYearPublished()).isEmpty() ? game.getYearPublished() : "Informação não disponível") +
+                        "\nMínimo jogadores: " + (!String.valueOf(game.getDetails().getMinPlayers()).isEmpty() ? game.getDetails().getMinPlayers() : "Informação não disponível") +
+                        "\nMáximo jogadores: " + (!String.valueOf(game.getDetails().getMaxPlayers()).isEmpty() ? game.getDetails().getMaxPlayers() : "Informação não disponível") +
+                        "\nTempo médio de jogo (mins): " + (!String.valueOf(game.getDetails().getPlayingTime()).isEmpty() ? game.getDetails().getPlayingTime() : "Informação não disponível") +
+                        "\nIdade mínima: " + (!String.valueOf(game.getDetails().getAge()).isEmpty() ? game.getDetails().getAge() : "Informação não disponível") +
 
-                categoryText; // Append category text
+                        categoryText; // Append category text
 
         gameDetailsTextView.setText(message);
 
