@@ -17,12 +17,13 @@
         android:id="@+id/btnEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Editar" />
+        android:text="Editar"
+        android:layout_marginBottom="12dp"/>
 
     <Button
         android:id="@+id/btnDelete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Eliminar"
-        android:backgroundTint="@android:color/holo_red_light" />
+        />
 </LinearLayout>

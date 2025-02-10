@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Insira o nome do jogo"
-        android:textSize="14sp"/>
+        />
 
     <!-- Label para Data da Partida -->
     <TextView
@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:hint="Insira a data da partida"
         android:inputType="date"
-        android:textSize="14sp"/>
+        />
 
     <!-- Label para Número de Jogadores -->
     <TextView
@@ -52,7 +52,7 @@
         android:layout_height="wrap_content"
         android:hint="Insira o nº de Jogadores"
         android:inputType="number"
-        android:textSize="14sp"/>
+        />
 
     <!-- Label para Duração -->
     <TextView
@@ -69,7 +69,7 @@
         android:layout_height="wrap_content"
         android:hint="Insira a duração"
         android:inputType="number"
-        android:textSize="14sp"/>
+        />
 
     <!-- Label para Pontuação -->
     <TextView
@@ -86,7 +86,7 @@
         android:layout_height="wrap_content"
         android:hint="Insira a pontuação"
         android:inputType="number"
-        android:textSize="14sp"/>
+        />
 
     <!-- Label para Notas -->
     <TextView
@@ -103,7 +103,7 @@
         android:layout_height="wrap_content"
         android:hint="Notas"
         android:inputType="textMultiLine"
-        android:textSize="14sp"/>
+        />
 
     <Button
         android:id="@+id/btnSaveMatch"
