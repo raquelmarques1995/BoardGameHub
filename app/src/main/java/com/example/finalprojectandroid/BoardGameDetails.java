@@ -35,6 +35,25 @@ public class BoardGameDetails implements Serializable {
     @ElementList(name = "boardgamecategory", entry = "boardgamecategory", inline = true, required = false)
     private List<String> categories;
 
+    public List<String> getCategories() {
+        return categories;
+    }
+
+    public String getCategory() {
+        return (categories != null && !categories.isEmpty()) ? categories.get(0) : "N/A";
+    }
+
+    @ElementList(name = "name", entry = "name", inline = true, required = false)
+    private List<String> names;
+
+    public List<String> getNames() {
+        return names;
+    }
+
+    public String getName() {
+        return (names != null && !names.isEmpty()) ? names.get(0) : "N/A";
+    }
+
     // Getters
     public int getYearPublished() { return yearPublished; }
     public int getMinPlayers() { return minPlayers; }
@@ -44,14 +63,7 @@ public class BoardGameDetails implements Serializable {
     public String getImageUrl() { return imageUrl; }
     public int getAge() { return age; }
 
-    public List<String> getCategories() {
-        return categories;
-    }
-
-    public String getCategory() {
-        return (categories != null && !categories.isEmpty()) ? categories.get(0) : "N/A";
-    }
-
+}
     //Opção caso queiramos ir buscar número 'optimimizado' de jogadores
 
     //Depois no BoardGameAdapter fariamos a chamada dentro do String message desta maneira
@@ -88,4 +100,4 @@ public class BoardGameDetails implements Serializable {
 //        }
 //        return "Informação não disponível";
 //    }
-}
+
