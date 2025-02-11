@@ -71,7 +71,7 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MatchViewHol
             txtMatchName.setText(match.getGameName());
 
             //Check the date value
-            Log.d("RecyclerView", "Match Date: " + match.getMatchDate());
+            //Log.d("RecyclerView", "Match Date: " + match.getMatchDate());
 
             // Format the date before displaying
             if (match.getMatchDate() != null) {

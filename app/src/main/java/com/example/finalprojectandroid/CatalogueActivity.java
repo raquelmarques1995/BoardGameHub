@@ -65,13 +65,13 @@ public class CatalogueActivity extends AppCompatActivity {
                     boardGameList = response.body().getHotBoardGames();
                     fetchDetailsForAllGames();  // Fetch details for the hot games
                 } else {
-                    Toast.makeText(CatalogueActivity.this, "No hot board games found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CatalogueActivity.this, "Jogos populares não encontrados", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<HotBoardGameResponse> call, Throwable t) {
-                Toast.makeText(CatalogueActivity.this, "API error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(CatalogueActivity.this, "Erro de API: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -89,13 +89,13 @@ public class CatalogueActivity extends AppCompatActivity {
                     boardGameList = response.body().getBoardGames();
                     fetchDetailsForAllGames();  // Fetch details for all found games
                 } else {
-                    Toast.makeText(CatalogueActivity.this, "No results found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CatalogueActivity.this, "0 resultados encontrados", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<BoardGameResponse> call, Throwable t) {
-                Toast.makeText(CatalogueActivity.this, "API error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(CatalogueActivity.this, "Erro de API : " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -121,7 +121,7 @@ public class CatalogueActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<BoardGameDetailsResponse> call, Throwable t) {
-                    Toast.makeText(CatalogueActivity.this, "Failed to load details", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CatalogueActivity.this, "Falha ao carregar detalhes", Toast.LENGTH_SHORT).show();
                 }
             });
         }

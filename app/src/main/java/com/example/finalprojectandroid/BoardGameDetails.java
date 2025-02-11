@@ -78,40 +78,4 @@ public class BoardGameDetails implements Serializable {
     public int getAge() { return age; }
 
 }
-    //Opção caso queiramos ir buscar número 'optimimizado' de jogadores
-
-    //Depois no BoardGameAdapter fariamos a chamada dentro do String message desta maneira
-    // "\nMelhor com: " + (game.getDetails().getBestWithNumbers() != null && !game.getDetails().getBestWithNumbers().isEmpty() ? game.getDetails().getBestWithNumbers() + " jogadores" : "Informação não disponível") +
-
-    //
-//    @Path("poll-summary[@name='suggested_numplayers']")
-//    @Element(name = "result", required = false)
-//    private String bestWith;
-//
-//    // Getter for bestWith
-//    public String getBestWith() {
-//        return bestWith;
-//    }
-//
-//    // New method to extract numbers from the "Best with" string
-//    public String getBestWithNumbers() {
-//        if (bestWith != null && !bestWith.isEmpty()) {
-//            // Regular expression to match numbers between "Best with" and "players"
-//            Pattern pattern = Pattern.compile("\\d+");
-//            Matcher matcher = pattern.matcher(bestWith);
-//
-//            StringBuilder numbers = new StringBuilder();
-//            while (matcher.find()) {
-//                // Append each found number (with a comma separating them)
-//                if (numbers.length() > 0) {
-//                    numbers.append(", ");
-//                }
-//                numbers.append(matcher.group());
-//            }
-//
-//            // Return the numbers as a string, or a default message if no numbers are found
-//            return numbers.length() > 0 ? numbers.toString() : "Informação não disponível";
-//        }
-//        return "Informação não disponível";
-//    }
 

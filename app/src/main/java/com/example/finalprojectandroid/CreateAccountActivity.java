@@ -18,7 +18,6 @@ public class CreateAccountActivity extends AppCompatActivity {
     private EditText etUsername, etEmail, etPassword, etPasswordConfirm; // Novo campo
     private Button btnRegistrar;
     private userDAO userDAO;
-    private ListView listViewUtilizadores;
     private ArrayAdapter<String> adapter;
     private ArrayList<String> listaUtilizadores;
 
@@ -35,13 +34,6 @@ public class CreateAccountActivity extends AppCompatActivity {
         etPasswordConfirm = findViewById(R.id.etRepeatPassword); // Inicialize o campo de confirmação de senha
         btnRegistrar = findViewById(R.id.btnRegistrar);
         userDAO = new userDAO(this);
-        listViewUtilizadores = findViewById(R.id.listViewUtilizadores);
-
-        listaUtilizadores = new ArrayList<>();
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listaUtilizadores);
-        listViewUtilizadores.setAdapter(adapter);
-
-        listUsers();
 
         btnRegistrar.setOnClickListener(v -> {
             String username = etUsername.getText().toString();
@@ -63,23 +55,6 @@ public class CreateAccountActivity extends AppCompatActivity {
                 Toast.makeText(this, "Erro ao criar conta!", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    private void listUsers() {
-        listaUtilizadores.clear();
-        Cursor cursor = dbHelper.listUsers();
-
-        if (cursor.moveToFirst()) {
-            do {
-                String nome = cursor.getString(cursor.getColumnIndexOrThrow("username"));
-                String email = cursor.getString(cursor.getColumnIndexOrThrow("email"));
-
-                listaUtilizadores.add(nome + " - " + email);
-            } while (cursor.moveToNext());
-        }
-
-        cursor.close();
-        adapter.notifyDataSetChanged();
     }
 }
 

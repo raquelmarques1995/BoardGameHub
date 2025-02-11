@@ -13,16 +13,16 @@ import retrofit2.http.Query;
 @Root(name = "items", strict = false)
 public interface ApiService {
 
-    // 1️⃣ Search for board games (existing method, keep it as is)
+    // Search for board games by name
     @GET("search")
     Call<BoardGameResponse> searchBoardGames(@Query("query") String query);
 
-    // 2️⃣ Fetch detailed info for a specific board game by ID (NEW METHOD)
+    // Fetch detailed info for a specific board game by ID
     @GET("boardgame/{id}")  // API URL: https://boardgamegeek.com/xmlapi/boardgame/{id}
     Call<BoardGameDetailsResponse> getBoardGameDetails(@Path("id") int id);
 
-    // New API for "Hot" board games
-    @GET("hot?boardgame")  // Example: https://example.com/api/hot
+    // API for "Hot"/popular board games
+    @GET("hot?boardgame")
     Call<HotBoardGameResponse> getHotBoardGames();
 }
 

@@ -47,7 +47,7 @@
             android:id="@+id/backButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Back"
+            android:text="Retroceder"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="50dp" /> <!-- Margin to avoid overlap -->
 

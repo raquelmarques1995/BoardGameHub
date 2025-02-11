@@ -53,7 +53,7 @@ public class BoardGameAdapterLoggedIn extends RecyclerView.Adapter<BoardGameAdap
     public void onBindViewHolder(@NonNull BoardGameViewHolder holder, int position) {
         BoardGame game = boardGameList.get(position);
         holder.nameTextView.setText(game.getName());
-        holder.yearTextView.setText("Year: " + game.getYearPublished());
+        holder.yearTextView.setText("Ano: " + game.getYearPublished());
 
         //Load image with glide
         if (game.getDetails() != null && game.getDetails().getImageUrl() != null) {
@@ -66,15 +66,6 @@ public class BoardGameAdapterLoggedIn extends RecyclerView.Adapter<BoardGameAdap
             holder.imageView.setImageResource(R.drawable.ic_boardgame_background); // Set backup image
         }
 
-        // Um onclick listener para apenas abrir o site, é a alternativa à parte abaixo
-//        holder.itemView.setOnClickListener(v -> {
-//            // Construct the URL with the corresponding game ID
-//            String gameUrl = "https://boardgamegeek.com/boardgame/" + game.getId();
-//
-//            // Open the URL in a browser
-//            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(gameUrl));
-//            context.startActivity(browserIntent);
-//        });
         holder.itemView.setOnClickListener(v -> showGameDetailsDialog(context, game));
 
     }
@@ -135,7 +126,6 @@ public class BoardGameAdapterLoggedIn extends RecyclerView.Adapter<BoardGameAdap
             try {
                 // Get the game name
                 String gameNameMatch = game.getDetails().getName();
-                Log.d("GameNameMatch",gameNameMatch);
                 // Prepare bundle to pass the game name
                 Bundle bundle = new Bundle();
                 bundle.putString("gameName", gameNameMatch);
@@ -174,17 +164,15 @@ goToDetailsButton.setOnClickListener(v -> {
             // Try to insert the game
             int insertResult = dbHelper.insertGameToMyGames(userId, game.getId());
 
-            Log.d("Databaseinput", "User: " + userId + " GameId: " + game.getId());
+            //Log.d("Input Base dados", "Utilizador: " + userId + "ID Jogo: " + game.getId());
 
             if (insertResult == 1) {
-                Toast.makeText(context, game.getName() + " added to My Games list", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, game.getName() + " adicionado à lista dos Meus Jogos", Toast.LENGTH_SHORT).show();
                 Log.d("Database", "Game inserted successfully.");
             } else if (insertResult == -1) {
-                Toast.makeText(context, "Game is already in My Games list", Toast.LENGTH_SHORT).show();
-                Log.d("Database", "Game already exists in My Games.");
+                Toast.makeText(context, "Jogo já existia na lista dos Meus Jogos", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(context, "Failed to add game", Toast.LENGTH_SHORT).show();
-                Log.d("Database", "Failed to insert game.");
+                Toast.makeText(context, "Erro ao adicionar o jogo à lista", Toast.LENGTH_SHORT).show();
             }
 
             dialog.dismiss();

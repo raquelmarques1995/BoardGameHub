@@ -17,7 +17,7 @@
         android:id="@+id/goToWebsiteButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Go to Website"
+        android:text="Ir para website de jogo"
         />
 
 
@@ -25,7 +25,7 @@
         android:id="@+id/closeButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Close"
+        android:text="Fechart"
         android:layout_marginTop="8dp"
         />
 </LinearLayout>

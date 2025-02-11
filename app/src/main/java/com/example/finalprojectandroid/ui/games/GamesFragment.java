@@ -75,7 +75,7 @@ public class GamesFragment extends Fragment {
                 fetchBoardGameDetails(gameId);
             }
         } else {
-            Log.d("GamesFragment", "No games found for user " + userId);
+            Log.e("GamesFragment", "No games found for user " + userId);
         }
     }
 
@@ -93,7 +93,7 @@ public class GamesFragment extends Fragment {
                         game.setId(gameId);
                         game.setDetails(gameDetails);
                         String primaryName = gameDetails.getName();
-                        Log.d("GamesFragment", "Primary Name for game ID " + gameId + ": " + primaryName);
+                        //Log.d("GamesFragment", "Primary Name for game ID " + gameId + ": " + primaryName);
                         boardGameList.add(game);
 
                         // Once all games are fetched, update the adapter and RecyclerView
@@ -107,7 +107,7 @@ public class GamesFragment extends Fragment {
 
             @Override
             public void onFailure(Call<BoardGameDetailsResponse> call, Throwable t) {
-                Log.d("GamesFragment", "API error while fetching details for game ID " + gameId + ": " + t.getMessage());
+                Log.d("GamesFragment", "Erro de API ao ir buscar detalhes para jogo com ID " + gameId + ": " + t.getMessage());
             }
         });
     }

@@ -57,7 +57,7 @@ public class MatchDetailsFragment extends Fragment {
             // Create a Bundle to pass the match ID
             Bundle bundle = new Bundle();
             bundle.putInt("match_id", matchId);  // Pass the match ID to the EditMatchFragment
-            Log.e("MatchDelailsFragment","id" + matchId);
+
             NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
             navController.navigate(R.id.EditMatchFragment, bundle);
         });

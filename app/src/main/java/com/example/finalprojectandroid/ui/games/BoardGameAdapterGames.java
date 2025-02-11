@@ -92,7 +92,7 @@ public class BoardGameAdapterGames extends RecyclerView.Adapter<BoardGameAdapter
             try {
                 // Get the game name
                 String gameNameMatch = game.getDetails().getName();
-                Log.d("GameNameMatch",gameNameMatch);
+                //Log.d("GameNameMatch",gameNameMatch);
                 // Prepare bundle to pass the game name
                 Bundle bundle = new Bundle();
                 bundle.putString("gameName", gameNameMatch);
@@ -119,15 +119,15 @@ public class BoardGameAdapterGames extends RecyclerView.Adapter<BoardGameAdapter
                 int gameId = game.getId();
 
                 // Attempt to delete the game from "My Games"
-                Log.d("LogMyGamesGameRemoval","userid:" + userId + " and gameid: " + gameId);
+                //Log.d("LogMyGamesGameRemoval","userid:" + userId + " and gameid: " + gameId);
                 boolean isDeleted = dbHelper.deleteGameFromMyGames(userId, gameId);
 
                 if (isDeleted) {
-                    Log.d("LogMyGamesGameRemoval", "Successfully removed game ID: " + gameId + " for user ID: " + userId);
+                    //Log.d("LogMyGamesGameRemoval", "Successfully removed game ID: " + gameId + " for user ID: " + userId);
                     boardGameList.remove(position);
                     notifyItemRemoved(position);
                 } else {
-                    Log.d("LogMyGamesGameRemoval", "Failed to remove game ID: " + gameId + " for user ID: " + userId);
+                    Log.e("LogMyGamesGameRemoval", "Failed to remove game ID: " + gameId + " for user ID: " + userId);
                 }
             } catch (Exception e) {
                 Log.e("LogMyGamesGameRemoval", "Error removing game: " + e.getMessage());

@@ -76,16 +76,16 @@ public class EditMatchFragment extends Fragment {
 
         if (getArguments() != null) {
             matchId = getArguments().getInt("match_id", -1);
-            Log.e("EditMatchFragment", "Match ID recebido: " + matchId);
+            //Log.d("EditMatchFragment", "Match ID recebido: " + matchId);
         } else {
-            Log.e("EditMatchFragment", "Erro: matchId não recebido!");
+            //Log.e("EditMatchFragment", "Erro: matchId não recebido!");
         }
 
         // ONLY call loadMatchData() AFTER initializing the EditText
         if (matchId != -1) {
             loadMatchData();
         } else {
-            Log.e("EditMatchFragment", "Erro: matchId inválido!");
+            //Log.e("EditMatchFragment", "Erro: matchId inválido!");
         }
 
         view.findViewById(R.id.btnSaveMatch).setOnClickListener(v -> saveMatch());
