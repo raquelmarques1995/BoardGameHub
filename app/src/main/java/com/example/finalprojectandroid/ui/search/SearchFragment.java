@@ -84,7 +84,7 @@ public class SearchFragment extends Fragment {
         apiService.getHotBoardGames().enqueue(new Callback<HotBoardGameResponse>() {
             @Override
             public void onResponse(Call<HotBoardGameResponse> call, Response<HotBoardGameResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
+                if (response.isSuccessful() && response.body() != null ) {
                     boardGameList = response.body().getHotBoardGames();
                     fetchDetailsForAllGames();  // Fetch details for the hot games
                 } else {
@@ -107,7 +107,7 @@ public class SearchFragment extends Fragment {
         apiService.searchBoardGames(query).enqueue(new Callback<BoardGameResponse>() {
             @Override
             public void onResponse(Call<BoardGameResponse> call, Response<BoardGameResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
+                if (response.isSuccessful() && response.body() != null && response.body().getBoardGames() != null) {
                     boardGameList = response.body().getBoardGames();
                     fetchDetailsForAllGames();  // Fetch details for all found games
                 } else {
@@ -131,7 +131,7 @@ public class SearchFragment extends Fragment {
             apiServiceForDetails.getBoardGameDetails(game.getId()).enqueue(new Callback<BoardGameDetailsResponse>() {
                 @Override
                 public void onResponse(Call<BoardGameDetailsResponse> call, Response<BoardGameDetailsResponse> response) {
-                    if (response.isSuccessful() && response.body() != null) {
+                    if (response.isSuccessful() && response.body() != null && response.body().getBoardGames() != null) {
                         BoardGameDetails details = response.body().getBoardGames().get(0);
                         game.setDetails(details); // Set the details to the BoardGame object
 

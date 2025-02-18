@@ -1,6 +1,7 @@
 package com.example.finalprojectandroid;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -9,6 +10,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,8 +88,11 @@ public class CatalogueActivity extends AppCompatActivity {
         apiService.searchBoardGames(query).enqueue(new Callback<BoardGameResponse>() {
             @Override
             public void onResponse(Call<BoardGameResponse> call, Response<BoardGameResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
+                if (response.isSuccessful() && response.body() != null && response.body().getBoardGames() != null) {
                     boardGameList = response.body().getBoardGames();
+
+                    Log.d("API_RESPONSE", "Full Response: " + new Gson().toJson(response.body()));
+
                     fetchDetailsForAllGames();  // Fetch details for all found games
                 } else {
                     Toast.makeText(CatalogueActivity.this, "0 resultados encontrados", Toast.LENGTH_SHORT).show();
@@ -109,7 +115,7 @@ public class CatalogueActivity extends AppCompatActivity {
             apiServiceForDetails.getBoardGameDetails(game.getId()).enqueue(new Callback<BoardGameDetailsResponse>() {
                 @Override
                 public void onResponse(Call<BoardGameDetailsResponse> call, Response<BoardGameDetailsResponse> response) {
-                    if (response.isSuccessful() && response.body() != null) {
+                    if (response.isSuccessful() && response.body() != null && response.body().getBoardGames() != null) {
                         BoardGameDetails details = response.body().getBoardGames().get(0);
                         game.setDetails(details); // Set the details to the BoardGame object
 

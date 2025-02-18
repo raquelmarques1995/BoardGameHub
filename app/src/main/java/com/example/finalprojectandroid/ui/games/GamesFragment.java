@@ -84,7 +84,7 @@ public class GamesFragment extends Fragment {
         apiService.getBoardGameDetails(gameId).enqueue(new Callback<BoardGameDetailsResponse>() {
             @Override
             public void onResponse(Call<BoardGameDetailsResponse> call, Response<BoardGameDetailsResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
+                if (response.isSuccessful() && response.body() != null && response.body().getBoardGames() != null) {
                     // Get the details of the game from the API response
                     BoardGameDetailsResponse gameDetailsResponse = response.body();
                     if (gameDetailsResponse != null) {
