@@ -84,7 +84,7 @@ public class SearchFragment extends Fragment {
         apiService.getHotBoardGames().enqueue(new Callback<HotBoardGameResponse>() {
             @Override
             public void onResponse(Call<HotBoardGameResponse> call, Response<HotBoardGameResponse> response) {
-                if (response.isSuccessful() && response.body() != null ) {
+                if (response.isSuccessful() && response.body() != null) {
                     boardGameList = response.body().getHotBoardGames();
                     fetchDetailsForAllGames();  // Fetch details for the hot games
                 } else {

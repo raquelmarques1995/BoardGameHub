@@ -12,7 +12,6 @@ import com.example.finalprojectandroid.databinding.ActivityMainframeBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
-
 public class MainFrameActivity extends AppCompatActivity {
     private ActivityMainframeBinding binding;
 

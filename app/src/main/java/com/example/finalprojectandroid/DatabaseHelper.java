@@ -19,7 +19,7 @@ import java.util.Locale;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "boardgames.db";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 5;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -28,7 +28,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.d("DatabaseHelper", "onCreate called");
-        String CREATE_USER_TABLE = "CREATE TABLE users (" +
+
+        String CREATE_USER_TABLE = "CREATE TABLE IF NOT EXISTS users (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "username TEXT UNIQUE NOT NULL, " +
                 "email TEXT UNIQUE NOT NULL," +
@@ -38,16 +39,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "country TEXT" +
                 ")";
 
-
-        String CREATE_CREDENTIALS_TABLE = "CREATE TABLE user_credentials (" +
+        String CREATE_CREDENTIALS_TABLE = "CREATE TABLE IF NOT EXISTS user_credentials (" +
                 "id_user INTEGER PRIMARY KEY, " +
                 "passwordHash TEXT NOT NULL, " +
                 "salt TEXT NOT NULL, " +
                 "FOREIGN KEY (id_user) REFERENCES users(id) ON DELETE CASCADE)";
 
-
-
-        String CREATE_MATCHES_TABLE = "CREATE TABLE matches (" +
+        String CREATE_MATCHES_TABLE = "CREATE TABLE IF NOT EXISTS matches (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "user_id INTEGER NOT NULL, " +
                 "game_name TEXT NOT NULL, " +
@@ -59,9 +57,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE" +
                 ")";
 
-
-
-        String CREATE_MYGAMES_TABLE = "CREATE TABLE mygames (" +
+        String CREATE_MYGAMES_TABLE = "CREATE TABLE IF NOT EXISTS mygames (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "user_id INTEGER NOT NULL, " +
                 "game_id INTEGER NOT NULL, " +
@@ -69,26 +65,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY (game_id) REFERENCES matches(id) ON DELETE CASCADE" +
                 ")";
 
-
         db.execSQL(CREATE_USER_TABLE);
         db.execSQL(CREATE_CREDENTIALS_TABLE);
         db.execSQL(CREATE_MATCHES_TABLE);
         db.execSQL(CREATE_MYGAMES_TABLE);
-
     }
+
 
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        Log.d("DatabaseHelper", "onUpgrade called from version " + oldVersion + " to " + newVersion);
+
         if (oldVersion < 2) {
             db.execSQL("DROP TABLE IF EXISTS users");
             db.execSQL("DROP TABLE IF EXISTS user_credentials");
             db.execSQL("DROP TABLE IF EXISTS matches");
+            db.execSQL("DROP TABLE IF EXISTS mygames"); // Certifica-se de que a tabela seja apagada
             onCreate(db);
         }
 
-        if (oldVersion < 3) { // New upgrade logic for mygames table
-            String CREATE_MYGAMES_TABLE = "CREATE TABLE mygames (" +
+        if (oldVersion < 3) {
+            db.execSQL("DROP TABLE IF EXISTS mygames"); // Evita erro de tabela já existente
+            String CREATE_MYGAMES_TABLE = "CREATE TABLE IF NOT EXISTS mygames (" +
                     "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "user_id INTEGER NOT NULL, " +
                     "game_id INTEGER NOT NULL, " +
@@ -98,6 +97,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.execSQL(CREATE_MYGAMES_TABLE);
         }
     }
+
 
     public Cursor listUsers() {
         SQLiteDatabase db = this.getReadableDatabase();

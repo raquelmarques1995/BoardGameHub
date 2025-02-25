@@ -2,7 +2,7 @@ package com.example.finalprojectandroid;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -34,6 +34,11 @@ public class CatalogueActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_catalogue);
 
+        // Ativa a seta de "voltar" na ActionBar
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         searchEditText = findViewById(R.id.searchEditText);
@@ -57,6 +62,14 @@ public class CatalogueActivity extends AppCompatActivity {
                 fetchBoardGames(query);
             }
         });
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed(); // Volta para a activity anterior
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     // Fetch hot board games (for example, the popular or trending games)

@@ -1,23 +1,38 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:theme="@style/AppTheme">
+
 
     <!-- Search Input -->
-    <EditText
-        android:id="@+id/searchEditText"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Insira nome de jogo de tabuleiro a procurar"
-        />
+        android:layout_marginBottom="20px"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:endIconMode="custom"
+        app:endIconDrawable="@drawable/magnify"
+        app:endIconContentDescription="icon">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:hint="Boardgame name"
+            android:id ="@+id/searchEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <!-- Search Button -->
     <Button
         android:id="@+id/searchButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Pesquisar"
+        android:text="Search"
         android:layout_gravity="center"
         android:layout_marginTop="8dp" />
 
